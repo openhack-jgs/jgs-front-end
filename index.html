@@ -289,6 +289,41 @@
 
     }
 
+    var like = (post_id) => {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          $.ajax({
+            method: "POST",
+            url: "http://localhost:3000/like",
+            data: {
+              'client_id': user.uid,
+              'post_id': post_id.id
+            }
+          }).then((data) => {
+            $(`#${post_id.id}`).attr("src", './assets/img/dev_init_heart.png');
+            $(`#${post_id.id}`).attr(`onclick", 'dislike(${post_id.id})`);
+          })
+        }
+      });
+    }
+    var dislike = (post_id) => {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          $.ajax({
+            method: "POST",
+            url: "http://106.10.34.9:3000/dislike",
+            data: {
+              'client_id': user.uid,
+              'post_id': post_id.id
+            }
+          }).then((data) => {
+            $(`#${post_id.id}`).attr("src", './assets/img/dev_init_heartblack.png');
+            $(`#${post_id.id}`).attr(`onclick", 'like(${post_id.id})`);
+          })
+        }
+      });
+    }
+
     $(document).ready(function () {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
@@ -341,6 +376,7 @@
 
         data[1].forEach(o => {
           var avg_level = Math.round(Number(o['level'] / o['level_count']));
+          var k = o['post_id'];
           // if (o.tag == app) return;
           contentsHTML +=
             `
@@ -367,14 +403,14 @@
                   <span class="dev-init-level-data">${avg_level}</span>
                 </div>
                 <div class="dev-init-heart">
-                  <img class="dev-init-heart-icon" src="assets/img/dev_init_heart.png">
-                  <div class="dev-init-heart-data">${o['like_count']}</div>
+                  <img onclick="like(${o['post_id']})" id="${o['post_id']}" class="dev-init-heart-icon" src="./assets/img/dev_init_heartblack.png">
                 </div>
               </div>
             </div>
           </div>
           `;
         });
+
 
         $('#dev-init-posts-container').html(contentsHTML);
 
@@ -495,35 +531,44 @@
     var blog_data;
     function send_data() {
       var level = document.getElementById('level').value;
-      var m_client_id = 'test_id';
-      var tags = {};
+      var m_client_id = '';
 
-      var i = 0;
-      while (1) {
-        try {
-          tags[document.getElementsByClassName("tagit-label")[i].innerHTML] = true;
-        } catch {
-          console.log(tags, 'eror!')
-          break;
-        }
-        i++;
-      }
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          m_client_id = user.uid
+          var tags = {};
 
-      $.ajax({
-        method: "POST",
-        url: "http://106.10.34.9:3000/write_post",
-        data: {
-          'client_id': m_client_id,
-          'og:title': blog_data['og:title'],
-          'og:description': blog_data['og:description'],
-          'og:image': blog_data['og:image'],
-          'og:url': blog_data['og:url'],
-          'level': level,
-          'tags': tags
+          var i = 0;
+          while (1) {
+            try {
+              tags[document.getElementsByClassName("tagit-label")[i].innerHTML] = true;
+            } catch {
+              console.log(tags, 'eror!')
+              break;
+            }
+            i++;
+          }
+
+          $.ajax({
+            method: "POST",
+            url: "http://106.10.34.9:3000/write_post",
+            data: {
+              'client_id': m_client_id,
+              'og:title': blog_data['og:title'],
+              'og:description': blog_data['og:description'],
+              'og:image': blog_data['og:image'],
+              'og:url': blog_data['og:url'],
+              'level': level,
+              'tags': tags
+            }
+          }).done((data) => {
+            console.log(data);
+          });
         }
-      }).done((data) => {
-        console.log(data);
       });
+
+
+      
     }
   </script>
   <link href="./assets/css/jquery.tagit.css" rel="stylesheet" type="text/css">
@@ -541,24 +586,31 @@
 
     function send_comment_data() {
       var level = document.getElementById('comment_level').value;
-      var m_client_id = 'test_id';
-      var m_com = $('#comment').val();
+      var m_client_id = '';
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          m_client_id = user.uid;
 
-      console.log(m_com);
-      console.log(level);
+          var m_com = $('#comment').val();
 
-      $.ajax({
-        method: "POST",
-        url: "http://106.10.34.9:3000/feedback_post",
-        data: {
-          'client_id': m_client_id,
-          'post_id': '1E45XGW6k0qiWhWJwnfE',
-          'level': level,
-          'comment': m_com
+          console.log(m_com);
+          console.log(level);
+
+          $.ajax({
+            method: "POST",
+            url: "http://106.10.34.9:3000/feedback_post",
+            data: {
+              'client_id': m_client_id,
+              'post_id': '1E45XGW6k0qiWhWJwnfE',
+              'level': level,
+              'comment': m_com
+            }
+          }).done((data) => {
+            console.log(data);
+          });
         }
-      }).done((data) => {
-        console.log(data);
       });
+      
     }
   </script>
 </body>
