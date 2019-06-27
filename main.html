@@ -1,0 +1,101 @@
+<header class="container">
+        <a href="#" class="logo"><img src="" alt=" "></a>
+        <a href="#">log in</a>
+    </header>
+    <body>
+        <section class="Search_bar_section">  
+            <form>
+                <input type="text" placeholder = "태그 검색" name="search">
+                <input type="submit" value="검색">
+            </form>    
+        </section> 
+             
+    
+        <section class ="Tag_section">
+            
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function(){
+
+            const dummy = [
+                {
+                    title : 'a',
+                    desc: 'aaaa',
+                    img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
+                    tag: 'web'
+                },
+                {
+                    title : 'b',
+                    desc: 'bbbb',
+                    img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
+                    tag: 'web'
+
+                },
+                {
+                    title : 'c',
+                    desc: 'cccc',
+                    img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
+                    tag: 'app'
+                }
+            ];
+
+            let contentsHTML = '';
+            dummy.forEach(o => { 
+               // if (o.tag == app) return;
+                contentsHTML += `
+                <div>
+                    <div>
+                        ${o.title}
+                    </div>
+                    <div>
+                        ${o.desc}
+                    </div>
+                    <div>
+                        <img src="${o.img}">
+                    </div>
+                </div>
+                `;
+            });
+            $('#contents').html(contentsHTML);
+
+            $(".check").click(function(){  
+                var str = ""; 
+                $(".check").each(function(){  
+                    if($(this).is(":checked"))  
+                        str += $(this).val() + " "; 
+                });
+              $("#Multi").text(str);  // #multiPrint에 체크된 원소를 출력한다.
+             
+            });
+        });
+        </script>
+        <!--tag-->
+        <details>
+             <summary>Tag</summary>  
+             <div>WEB:
+                
+             </div>
+             <div>APP:
+
+             </div>
+             <span id="Multi"></span>
+            </details>
+            
+        </section>
+    
+    
+    
+        <div id="contents">
+            
+        </div>
+    
+        <section class ="Add_Box">
+        <a href="#" class="logo"><img src="" alt=" "></a>
+        </section>
+        
+    
+    <footer class="container">
+    </footer>
+    
+        
+    </body>
