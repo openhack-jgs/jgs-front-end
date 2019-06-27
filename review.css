@@ -1,6 +1,6 @@
 /* The Modal (background) */
 .modal {
-    display: inline; /* Hidden by default */
+    display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
     padding-top: 100px; /* Location of the box */
@@ -36,9 +36,9 @@
 }
 
 .declation {
-    color: #aaaaaa;
+    color: #030303;
     float: right;
-    font-size: 28px;
+    font-size: 10px;
     font-weight: bold;
 }
 

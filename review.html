@@ -15,21 +15,27 @@
     <div class ="modal-top">
       <!--로그인--> log in
        <ul class="close">×</ul>
-     <ul class="declation">△</ul>  <!--누르면 태그 눌리게 -->
+     <ul class="declation">신고</ul>  <!--누르면 태그 눌리게 -->
     </div>
+
+
+    
     <div>
          <!--tag--> tag
     </div>
+
+
+
       <!--slider-->
       <div class="content">
-            <label>난이도: </label><input type="text" value="6.0" class="slideControl" maxlength="3" />
+            <label>난이도: </label><input type="text" value="6.0" class="slideControl" maxlength="3" id="level" />
         </div>
     
   <div class = "comment">
     comment
     <textarea name="comment_box" id = "comment" rows = "5" cols="50"> </textarea>
   </div>
-  <input type="submit" class ="submit" value="등록">
+  <input type="button" value="확인" onclick="send_data()">
 </div>
 </body>
 
@@ -44,20 +50,31 @@
         $('.slideControl').slideControl();   
     });
 
- function comment_put () {
-    const m_com = $('#comment').val();
-    console.log(m_com)
+ function send_data () {
+    var level = document.getElementById('level').value;
+    var m_client_id = 'test_id';
+    var m_com = $('#comment').val();
+
+    console.log(m_com);
+    console.log(level);
+
     $.ajax({
-        method : "GET",
-        url : "http://106.10.34.9:3000/analysis_url",
-        data : { comment : m_com}
-    })
+        method : "POST",
+        url : "http://106.10.34.9:3000/feedback_post",
+        data : { 
+            'client_id' : m_client_id,
+            'post_id' : '1E45XGW6k0qiWhWJwnfE',
+            'level' : level ,
+            'comment' : m_com   }
+        }).done((data) => {
+            console.log(data);
+    });
+
+
  }
 </script>
 
-<script src="./jquery-3.0.0.min.js"></script>
 <script src="./review.js"></script>
-
 <link rel="stylesheet" type="text/css" href="slideControl.css" />
 <script type="text/javascript" src="jquery.slideControl.js"></script>
 </html>
