@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="./review.css">
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+</head>
+
+<body>
+<!-- Trigger/Open The Modal -->
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div id="modal-content" class="modal-content">
+    <div class ="modal-top">
+      <!--로그인--> log in
+       <ul class="close">×</ul>
+     <ul class="declation">신고</ul>  <!--누르면 태그 눌리게 -->
+    </div>
+
+
+    
+    <div>
+         <!--tag--> tag
+    </div>
+
+
+
+      <!--slider-->
+      <div class="content">
+            <label>난이도: </label><input type="text" value="6.0" class="slideControl" maxlength="3" id="level" />
+        </div>
+    
+  <div class = "comment">
+    comment
+    <textarea name="comment_box" id = "comment" rows = "5" cols="50"> </textarea>
+  </div>
+  <input type="button" value="확인" onclick="send_data()">
+</div>
+</body>
+
+<!-- scripts -->
+<script type="text/javascript"> 
+ jQuery(document).ready(function () {
+        $('#myModal').show();
+        $('table tr').click(function () {
+            window.open($(this).data('href'));
+        });
+        //slider
+        $('.slideControl').slideControl();   
+    });
+
+ function send_data () {
+    var level = document.getElementById('level').value;
+    var m_client_id = 'test_id';
+    var m_com = $('#comment').val();
+
+    console.log(m_com);
+    console.log(level);
+
+    $.ajax({
+        method : "POST",
+        url : "http://106.10.34.9:3000/feedback_post",
+        data : { 
+            'client_id' : m_client_id,
+            'post_id' : '1E45XGW6k0qiWhWJwnfE',
+            'level' : level ,
+            'comment' : m_com   }
+        }).done((data) => {
+            console.log(data);
+    });
+
+
+ }
+</script>
+
+<script src="./review.js"></script>
+<link rel="stylesheet" type="text/css" href="slideControl.css" />
+<script type="text/javascript" src="jquery.slideControl.js"></script>
+</html>
