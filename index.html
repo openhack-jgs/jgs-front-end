@@ -109,6 +109,12 @@
   <script src="assets/js/docs.js"></script>
 
   <script type="text/javascript">
+    $('.dev-init-logo').click(() => {
+      window.location.href = './index.html';
+    })
+    $('.dev-init-profile').click(() => {
+      window.location.href = './mypage.html';
+    })
     var provider2 = new firebase.auth.GoogleAuthProvider();
     var tag_infos;
     $('#add_filter').click(() => {
@@ -142,7 +148,7 @@
           </div>
         </div>
       </div>`);
-      
+
       let contentsHTML_web = '';
       let contentsHTML_app = '';
       tag_infos.forEach((item) => {
@@ -197,7 +203,63 @@
         }
       }
     }
+    var login = () => {
+      firebase.auth().signInWithPopup(provider2).then(function (result) {
+        // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+        var token = result.credential.accessToken;
+        // The signed-in user info.
+        var user = result.user;
+        // ...
+        console.log(token);
+        console.log(user);
+      }).catch(function (error) {
+        console.log(error);
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // The email of the user's account used.
+        var email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        var credential = error.credential;
+        // ...
+      });
+    };
+    
+    var logout = () => {
+      var result = confirm("정말로 로그아웃하시겠습니까?");
+      if(result){
+        firebase.auth().signOut().then(function () {
+          // alert("정상적으로 로그아웃되었습니다!");
+        }).catch(function (error) {
+          alert("서버에 문제가 있어 로그아웃에 실패했습니다.")
+        });
+      }else{
+        // alert("저런~ 2018년에는 꼭 모두 이루세요!!");
+      }
+      
+    }
+    
     $(document).ready(function () {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          // User is signed in.
+          var displayName = user.displayName;
+          var email = user.email;
+          var emailVerified = user.emailVerified;
+          var photoURL = user.photoURL;
+          var isAnonymous = user.isAnonymous;
+          var uid = user.uid;
+          var providerData = user.providerData;
+          // ...
+          console.log(user);
+          $("#dev-init-login").html(`<div onclick="logout()">Log Out</div>`);
+        } else {
+          // User is signed out.
+          // ...
+          $("#dev-init-login").html(`<div onclick="login()">Log In</div>`);
+        }
+      });
+      
       $.ajax({
         method: "GET",
         url: "http://106.10.34.9:3000/main_page",
@@ -286,29 +348,7 @@
 
         });
 
-        $("#dev-init-login").click(() => {
-          console.log('ci')
-          firebase.auth().signInWithPopup(provider2).then(function (result) {
-            console.log("333...")
-            // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-            var token = result.credential.accessToken;
-            // The signed-in user info.
-            var user = result.user;
-            // ...
-            console.log(token);
-            console.log(user);
-          }).catch(function (error) {
-            console.log(error);
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // The email of the user's account used.
-            var email = error.email;
-            // The firebase.auth.AuthCredential type that was used.
-            var credential = error.credential;
-            // ...
-          });
-        });
+        
         $("#status").click(() => {
           firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
@@ -330,6 +370,7 @@
           });
 
         });
+        
         $("#logout").click(() => {
           firebase.auth().signOut().then(function () {
             console.log("Sign-out successful")

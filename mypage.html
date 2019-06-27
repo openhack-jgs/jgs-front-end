@@ -90,7 +90,9 @@
 
   <script type="text/javascript">
     var provider2 = new firebase.auth.GoogleAuthProvider();
-    
+    $('.dev-init-logo').click(() => {
+      window.location.href = './index.html';
+    })
     $(document).ready(function () {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {

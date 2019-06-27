@@ -78,7 +78,7 @@ div.dev-init-search-container img.dev-init-search-black {
   height: 4%;
 }
 div.dev-init-bg-container {
-  height: 550px;
+  height: 430px !important;
   background-image: url('../img/dev_init_bg.png');
   /* background-repeat: contain; */
   background-size: cover;
