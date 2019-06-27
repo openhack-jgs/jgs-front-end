@@ -52,10 +52,10 @@
             url: <input type="text" id="url" onfocusout="url_focusout()">
             <table>
                 <tr data-href="www.naver.com" style="cursor:pointer;">
-                    <td>image</td>
+                    <td><img src="#" id='image'></td>
                 </tr>
                 <tr data-href="www.naver.com" style="cursor:pointer;">
-                    <td>description</td>
+                    <td id='description'>description</td>
                 </tr>
             </table>
             <!--tag-->
@@ -102,18 +102,23 @@
     function close_pop(flag) {
         $('#myModal').hide();
     };
- /*   function url_focusout() {
-        const m_name = $('#url');       //이 돔에 있는 값을 가져오자
+    function url_focusout() {
+        const m_name = $('#url').val();       //이 돔에 있는 값을 가져오자
+        console.log(m_name)
         $.ajax({
-            method: "POST",
-            url: "back",
-            data: { name: m_name }
+            method: "GET",
+            url: "http://106.10.34.9:3000/analysis_url",
+            data: { url: m_name }
         })
             .done(function (data) {
+                console.log(data);
+                // $('#image').text(data['og:image'])
+                $("#image").attr("src", data['og:image']);
+                $('#description').text(data['og:description'])
                 alert("Data Saved: " + data);
             });
         alert("aa");
-    }*/
+    }
     //tag
     $(function () {
         var sampleTags = ['c++', 'java', 'php', 'coldfusion', 'javascript', 'asp', 'ruby', 'python', 'c', 'scala', 'groovy', 'haskell', 'perl', 'erlang', 'apl', 'cobol', 'go', 'lua'];
