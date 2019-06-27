@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="./review.css">
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+</head>
+
+<body>
+
+<!-- Trigger/Open The Modal -->
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div id="modal-content" class="modal-content">
+    <div>
+      <!--로그인-->
+    </div>
+    <div>
+         <!--tag-->
+     <ul class="close">×</ul>
+      <ul class="declation">△</ul>  <!--누르면 태그 눌리게 -->
+        
+    </div>
+      <!--slider-->
+      <div class="content">
+            <label>난이도: </label><input type="text" value="6.0" class="slideControl" maxlength="3" />
+        </div>
+    
+  <div class = "comment">
+    comment
+    <textarea name="comment_box" rows = "5" cols="50"> </textarea>
+  </div>
+  <input type="submit" class ="submit" value="등록">
+</div>
+</body>
+
+<!-- scripts -->
+<script type="text/javascript"> 
+ jQuery(document).ready(function () {
+        $('#myModal').show();
+        $('table tr').click(function () {
+            window.open($(this).data('href'));
+        });
+        //slider
+        $('.slideControl').slideControl();
+    });
+</script>
+
+<script src="./jquery-3.0.0.min.js"></script>
+<script src="./review.js"></script>
+
+<link rel="stylesheet" type="text/css" href="slideControl.css" />
+<script type="text/javascript" src="jquery.slideControl.js"></script>
+</html>
