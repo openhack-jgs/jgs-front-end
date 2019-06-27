@@ -339,10 +339,12 @@
         })
         $('.dev-init-category-web').html(contentsHTML_web);
         $('.dev-init-category-app').html(contentsHTML_app);
-
+        var tag_str;
         data[1].forEach(o => {
           var avg_level = Math.round(Number(o['level'] / o['level_count']));
           // if (o.tag == app) return;
+          tag_str='\0';
+          for(var key in o['tags']) {tag_str+=key+' ';}
           contentsHTML +=
             `
           <div class="dev-init-post">
@@ -357,8 +359,7 @@
                   <p class="dev-init-description">${o['og:description']}</p>
                 </div>
                 <ul class="dev-init-tags">
-                  <li>tag1</li>
-                  <li>tag2</li>
+                  <li>${tag_str}</li>
                 </ul>
               </div>
 
