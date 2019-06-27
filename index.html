@@ -2,6 +2,7 @@
         <a href="#" class="logo"><img src="" alt=" "></a>
         <!-- <a href="#">log in</a> -->
         <div id="login">Log In</div>
+        <div id="status">Log In</div>
     </header>
     <body>
         <section class="Search_bar_section">  
@@ -99,6 +100,27 @@
                 var credential = error.credential;
                 // ...
                 });
+            });
+            $("#status").click(() => {
+                firebase.auth().onAuthStateChanged(function(user) {
+                    if (user) {
+                        // User is signed in.
+                        var displayName = user.displayName;
+                        var email = user.email;
+                        var emailVerified = user.emailVerified;
+                        var photoURL = user.photoURL;
+                        var isAnonymous = user.isAnonymous;
+                        var uid = user.uid;
+                        var providerData = user.providerData;
+                        // ...
+                        console.log(user);
+                    } else {
+                        // User is signed out.
+                        // ...
+                        console.log('nono')
+                    }
+                });
+
             });
             // $("#login").click(() => {
             //     $.ajax({
