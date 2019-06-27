@@ -2,7 +2,7 @@
         <a href="#" class="logo"><img src="" alt=" "></a>
         <!-- <a href="#">log in</a> -->
         <div id="login">Log In</div>
-        <div id="status">Log In</div>
+        <div id="status">status</div>
     </header>
     <body>
         <section class="Search_bar_section">  
@@ -28,6 +28,7 @@
         
 
         var provider = new firebase.auth.GithubAuthProvider();
+        var provider2 = new firebase.auth.GoogleAuthProvider();
 
         $(document).ready(function(){
 
@@ -82,14 +83,15 @@
              
             });
             $("#login").click(() => {
-                firebase.auth().signInWithPopup(provider).then(function(result) {
-                // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-                var token = result.credential.accessToken;
-                // The signed-in user info.
-                var user = result.user;
-                // ...
-                console.log(token);
-                console.log(user);
+                firebase.auth().signInWithPopup(provider2).then(function(result) {
+                    console.log("333...")
+                    // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+                    var token = result.credential.accessToken;
+                    // The signed-in user info.
+                    var user = result.user;
+                    // ...
+                    console.log(token);
+                    console.log(user);
                 }).catch(function(error) {
                 // Handle Errors here.
                 var errorCode = error.code;
