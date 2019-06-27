@@ -1,0 +1,65 @@
+<header class="container">
+    <a href="#" class="logo"><img src="" alt=" "></a>
+    <a href="#">log in</a>
+</header>
+<body>
+    <section class="Search_bar_section">  
+          <div>
+            <input type="text" placeholder = "태그 검색">
+            <button>검색</button>
+        </div>    
+    </section> 
+         
+
+    <section class ="Tag_section">
+        
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    $(document).ready(function(){
+    	$(".check").click(function(){  
+    		var str = ""; 
+	    	$(".check").each(function(){  
+	    		if($(this).is(":checked"))  
+	    			str += $(this).val() + " "; 
+	    	});
+          $("#Multi").text(str);  // #multiPrint에 체크된 원소를 출력한다.
+         
+    	});
+    });
+
+    </script>
+
+    <details>
+         <summary>Tag</summary>  
+         Web<input type="checkbox" class="check" value="Web">
+         App<input type="checkbox" class="check" value="App">
+         <span id="Multi"></span>
+        </details>
+        
+    </section>
+
+
+
+    <section class ="Box">
+        <div>
+            <h6> Box </h6>
+        </div> 
+        <div>
+            <h6> Box </h6>
+        </div>    
+        <div>
+            <h6> Box </h6>
+        </div>       
+    </section>
+
+    <section class ="Add_Box">
+    <a href="#" class="logo"><img src="" alt=" "></a>
+    </section>
+    
+
+<footer class="container">
+</footer>
+
+    
+</body>
