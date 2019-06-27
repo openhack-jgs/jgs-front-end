@@ -123,8 +123,7 @@
 
         <!--slider-->
         <div class="content">
-          <input type="hidden" value="6.0" class="slideControl" maxlength="3"
-            name="level" id="level" />
+          <input type="hidden" value="6.0" class="slideControl" maxlength="3" name="level" id="level" />
         </div>
 
         <table id="table_box">
@@ -159,6 +158,7 @@
   <script src="assets/js/docs.js"></script>
 
   <script type="text/javascript">
+    var comment_postid;
     $('.dev-init-logo').click(() => {
       window.location.href = './index.html';
     })
@@ -373,11 +373,13 @@
         })
         $('.dev-init-category-web').html(contentsHTML_web);
         $('.dev-init-category-app').html(contentsHTML_app);
-
+        var tag_str;
         data[1].forEach(o => {
           var avg_level = Math.round(Number(o['level'] / o['level_count']));
           var k = o['post_id'];
           // if (o.tag == app) return;
+          tag_str = '\0';
+          for (var key in o['tags']) { tag_str += key + ' '; }
           contentsHTML +=
             `
           <div class="dev-init-post">
@@ -386,14 +388,13 @@
             </div>
             <div class="dev-init-post__right">
 
-              <div class="dev-init-post__right-left" data-postid="${o['post_id']}" data-url="${o['og:url']}">
+              <div class="dev-init-post__right-left" data-postid="${o['post_id']}" data-url="${o['og:url']}" data-tags="${o['tags']}">
                 <div>
                   <h3 class="dev-init-title">${o['og:title']}</h3>
                   <p class="dev-init-description">${o['og:description']}</p>
                 </div>
                 <ul class="dev-init-tags">
-                  <li>tag1</li>
-                  <li>tag2</li>
+                  <li>${tag_str}</li>
                 </ul>
               </div>
 
@@ -419,8 +420,10 @@
           window.open(this.dataset.url);
 
           //모달 띄우고
+          get_post_tags();
           // console.log(this.dataset.postid);
           comment_postid = this.dataset.postid;
+          comment_tags = this.dataset.tags;
           console.log(comment_postid);
           console.log(comment_postid);
           console.log(comment_postid);
@@ -441,16 +444,21 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
               aria-hidden="true">&times;</span></button>
+          <div class="FEEDBACK">FEED BACK</div>
+          <div class="TAG">TAG</div>
+          <ul id="removeConfirmationTags2"></ul>
+          <div onclick="tag_problem();" class="tag_problem_font">select uncorrent tag</div>
           <!--slider-->
           <div class="content">
-            <label>level: </label><input type="text" value="6.0" class="slideControl" maxlength="3"
+            <label class="LEVEL">LEVEL: </label><input type="text" value="6.0" class="slideControl" maxlength="3"
               id="comment_level" />
           </div>
 
           <div class="comment">
-            comment
+            COMMENT
             <textarea name="comment_box" id="comment" rows="5" cols="50"> </textarea>
           </div>
+
           <input type="button" value="submit" onclick="send_comment_data()" data-dismiss="modal"
             aria-label="Close"></input>
         </div>
@@ -462,6 +470,57 @@
     Launch demo modal
   </button> -->
   <script>
+
+    function tag_problem() {
+      let tagsHTML = '';
+      $.ajax({
+        method: "GET",
+        url: "http://106.10.34.9:3000/main_page",    //태그 url 수정
+        data: {}
+      })
+        .done(function (data) {
+          console.log(data);
+          // alert(comment_postid);
+          var i = 0;
+          while (1) {
+            if (comment_postid != data[1][i]['post_id']) { i++; continue; }
+            for (var key in data[1][i]['tags']) {
+              tagsHTML += `
+                        <li class="tagit-choice ui-widget-content ui-state-default ui-corner-all tagit-choice-editable"><span class="tagit-label" onclick="this.style.color='red';">${key}</span><a class="tagit-close"><span>x</span><span class="ui-icon ui-icon-close"></span></a><input type="hidden" value="tag" name="tags" class="tagit-hidden-field"></li>              
+                    `;
+            }
+            break;
+          }
+          console.log(tagsHTML);
+          $('#removeConfirmationTags2').html(tagsHTML);
+        });
+    }
+
+    function get_post_tags() {
+      let tagsHTML = '';
+      $.ajax({
+        method: "GET",
+        url: "http://106.10.34.9:3000/main_page",    //태그 url 수정
+        data: {}
+      })
+        .done(function (data) {
+          console.log(data);
+          // alert(comment_postid);
+          var i = 0;
+          while (1) {
+            if (comment_postid != data[1][i]['post_id']) { i++; continue; }
+            for (var key in data[1][i]['tags']) {
+              tagsHTML += `
+                        <li class="tagit-choice ui-widget-content ui-state-default ui-corner-all tagit-choice-editable"><span class="tagit-label">${key}</span><a class="tagit-close"><span class="ui-icon ui-icon-close"></span></a><input type="hidden" value="tag" name="tags" class="tagit-hidden-field"></li>              
+                    `;
+
+            }
+            break;
+          }
+          console.log(tagsHTML);
+          $('#removeConfirmationTags2').html(tagsHTML);
+        });
+    }
     function url_focusout() {
       const m_name = $('#url').val();
       console.log(m_name)
@@ -526,6 +585,10 @@
         availableTags: sampleTags,
         removeConfirmation: true
       });
+      $('#removeConfirmationTags2').tagit({
+        availableTags: sampleTags,
+        removeConfirmation: true
+      });
 
     });
     var blog_data;
@@ -568,7 +631,7 @@
       });
 
 
-      
+
     }
   </script>
   <link href="./assets/css/jquery.tagit.css" rel="stylesheet" type="text/css">
@@ -593,24 +656,18 @@
 
           var m_com = $('#comment').val();
 
-          console.log(m_com);
-          console.log(level);
-
           $.ajax({
             method: "POST",
             url: "http://106.10.34.9:3000/feedback_post",
             data: {
               'client_id': m_client_id,
-              'post_id': '1E45XGW6k0qiWhWJwnfE',
+              'post_id': comment_postid,
               'level': level,
               'comment': m_com
             }
-          }).done((data) => {
-            console.log(data);
           });
         }
-      });
-      
+      })
     }
   </script>
 </body>

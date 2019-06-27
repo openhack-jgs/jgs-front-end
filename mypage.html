@@ -52,9 +52,6 @@
 
   <div class="container">
     <div class="dev-init-search-container">
-      <div>1</div>
-      <div>2</div>
-      <div>3</div>
     </div>
 
     <div id="dev-init-filter-container">
@@ -107,17 +104,6 @@
           // ...
           console.log(user);
           console.log(user.uid);
-          $.ajax({
-            method: "POST",
-            url: "http://106.10.34.9:3000/liked_post",
-            data: {
-              'client_id': user.uid,
-            }
-          }).done((data) => {
-            console.log("11");
-            console.log(data.date());
-            console.log("2");
-          })
         } else {
           // User is signed out.
           // ...
@@ -127,15 +113,21 @@
       });
 
       $.ajax({
-        method: "GET",
-        url: "http://106.10.34.9:3000/main_page",
-        data: {}
+        method: "POST",
+        url: "http://106.10.34.9:3000/liked_post",
+        data: {
+          'client_id': user.uid
+        }
       }).then(function (data) {
         // console.log(dummy);
         let contentsHTML = '';
+        var tag_str;
+
         data[1].forEach(o => {
           var avg_level = Math.round(Number(o['level'] / o['level_count']));
           // if (o.tag == app) return;
+          tag_str='\0';
+          for(var key in o['tags']) {tag_str+=key+' ';}
           contentsHTML +=
             `
           <div class="dev-init-post" data-postid="${o['post_id']}" data-url="${o['og:url']}">
@@ -149,8 +141,7 @@
                   <p class="dev-init-description">${o['og:description']}</p>
                 </div>
                 <ul class="dev-init-tags">
-                  <li>tag1</li>
-                  <li>tag2</li>
+                  <li>${tag_str}</li>
                 </ul>
               </div>
               <div class="dev-init-post__right-right">
