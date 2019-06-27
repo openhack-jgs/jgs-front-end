@@ -1,101 +1,115 @@
 <header class="container">
-        <a href="#" class="logo"><img src="" alt=" "></a>
-        <a href="#">log in</a>
-    </header>
-    <body>
-        <section class="Search_bar_section">  
-            <form>
-                <input type="text" placeholder = "태그 검색" name="search">
-                <input type="submit" value="검색">
-            </form>    
-        </section> 
-             
-    
-        <section class ="Tag_section">
+    <a href="#" class="logo"><img src="" alt=" "></a>
+    <a href="#">log in</a>
+</header>
+<body>
+    <!--search-->
+    <section class="Search_bar_section">  
+        <form action="search_tag()">
+            <input type="text" placeholder = "태그 검색" name="keyword">
+            <input type="submit" value="검색">
+        </form>    
+    </section> 
             
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script type="text/javascript">
-        $(document).ready(function(){
 
-            const dummy = [
-                {
-                    title : 'a',
-                    desc: 'aaaa',
-                    img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-                    tag: 'web'
-                },
-                {
-                    title : 'b',
-                    desc: 'bbbb',
-                    img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-                    tag: 'web'
+    <section class ="Tag_section">
+        
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
 
-                },
-                {
-                    title : 'c',
-                    desc: 'cccc',
-                    img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-                    tag: 'app'
-                }
-            ];
+        const dummy = [
+            {
+                url : 'https://www.naver.com',
+                title : 'a',
+                desc: 'aaaa',
+                img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
+                tag: 'web',
+                like: '3'
+            },
+            {
+                url : 'https://www.naver.com',
+                title : 'b',
+                desc: 'bbbb',
+                img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
+                tag: 'web',
+                like: '4'
+            },
+            {
+                url : 'https://www.naver.com',
+                title : 'c',
+                desc: 'cccc',
+                img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
+                tag: 'app',
+                like: '5'
+            }
+        ];
 
-            let contentsHTML = '';
-            dummy.forEach(o => { 
-               // if (o.tag == app) return;
-                contentsHTML += `
+        let contentsHTML = '';
+        dummy.forEach(o => { 
+            // if (o.tag == app) return;
+            contentsHTML += `
+            <div>
+                <a href="${o.url}" target="_blank">
                 <div>
-                    <div>
-                        ${o.title}
-                    </div>
-                    <div>
-                        ${o.desc}
-                    </div>
-                    <div>
-                        <img src="${o.img}">
-                    </div>
+                    ${o.title}
                 </div>
-                `;
-            });
-            $('#contents').html(contentsHTML);
-
-            $(".check").click(function(){  
-                var str = ""; 
-                $(".check").each(function(){  
-                    if($(this).is(":checked"))  
-                        str += $(this).val() + " "; 
-                });
-              $("#Multi").text(str);  // #multiPrint에 체크된 원소를 출력한다.
-             
-            });
+                <div>
+                    ${o.desc}
+                </div>
+                <div>
+                    <img src="${o.img}">
+                </div>
+                </a>
+                <div>
+                    ${o.like}
+                </div>
+            </div>
+            `;
         });
-        </script>
-        <!--tag-->
-        <details>
-             <summary>Tag</summary>  
-             <div>WEB:
-                
-             </div>
-             <div>APP:
+        $('#contents').html(contentsHTML);
+    });
+    //태그받아오기
+    function get_tags() {
+        $.ajax({
+            method: "GET",
+            url: "http://106.10.34.9:3000/analysis_url",    //태그 url 수정
+            data: {}
+        })
+            .done(function (data) {
+                let tagsHTML = '';
+                data.forEach(o => {
+                    tagsHTML += `
+                    <div id="${o.tags}">
+                         ${o.tags}                  
+                    </div>
+                 `;                
+                })
+            });
+        $('#tags').html(tagsHTML);
+    }
+    function search_tag(){
+        
+    }
+    </script>
+    <!--tag-->
+    <details>
+            <summary onclick="get_tags()">Tag</summary>  
+            <div id="tags">
+            </div>
+            <span id="Multi"></span>
+        </details>
+        
+    </section>
 
-             </div>
-             <span id="Multi"></span>
-            </details>
-            
-        </section>
-    
-    
-    
-        <div id="contents">
-            
-        </div>
-    
-        <section class ="Add_Box">
-        <a href="#" class="logo"><img src="" alt=" "></a>
-        </section>
+
+    <!--view-->
+    <div id="contents">
         
+    </div>
+
+    <section class ="Add_Box">
+    <a href=".\insertValue.html" class="logo"><img src="" alt=" "></a>
+    </section>
     
-    <footer class="container">
-    </footer>
-    
-        
-    </body>
+</body>
