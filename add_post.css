@@ -1,4 +1,11 @@
 
+.modal-dialog {
+    width: 550px;
+    height: 445px;
+    box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.16);
+    background-color: #ffffff;
+    margin-bottom: 0%;
+}
 .new {
     font-family: NanumSquareEB;
     font-size : 20px;
@@ -47,8 +54,7 @@
   margin-top : 25px;
   margin-left : 61.5px;
 }
-#submit_box {
-}
+
 #submit_button {
     margin-top : 30px;  
     width: 490px;
