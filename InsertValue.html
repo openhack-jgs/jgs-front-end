@@ -36,7 +36,6 @@
 </style>
 
 
-<form action="" method="">
     <!-- The Modal -->
     <div id="myModal" class="modal">
 
@@ -64,13 +63,12 @@
             </ul>
             <!--slider-->
             <div class="content">
-                <label>난이도: </label><input type="text" value="6.0" class="slideControl" maxlength="3" />
+                <label>난이도: </label><input type="text" value="6.0" class="slideControl" maxlength="3" name="level" id="level"/>
             </div>
-            <input type="submit" value="등록">
+            <input type="button" value="등록" onclick="send_data()">
         </div>
     </div>
     <!--End Modal-->
-</form>
 
 <!-- 2 CSS files are required: -->
 <!--   * Tag-it's base CSS (jquery.tagit.css). -->
@@ -89,7 +87,7 @@
     charset="utf-8"></script>
 <script src="js/tag-it.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-
+    var blog_data;
     jQuery(document).ready(function () {
         $('#myModal').show();
         $('table tr').click(function () {
@@ -103,7 +101,7 @@
         $('#myModal').hide();
     };
     function url_focusout() {
-        const m_name = $('#url').val();       //이 돔에 있는 값을 가져오자
+        const m_name = $('#url').val();
         console.log(m_name)
         $.ajax({
             method: "GET",
@@ -112,12 +110,12 @@
         })
             .done(function (data) {
                 console.log(data);
+                blog_data = data;
                 // $('#image').text(data['og:image'])
                 $("#image").attr("src", data['og:image']);
                 $('#description').text(data['og:description'])
-                alert("Data Saved: " + data);
+                //alert("Data Saved: " + data);
             });
-        alert("aa");
     }
     //tag
     $(function () {
@@ -157,7 +155,6 @@
                 addEvent('onTagExists: ' + eventTags.tagit('tagLabel', ui.existingTag));
             }
         });
-
         //-------------------------------
         // Remove confirmation
         //-------------------------------
@@ -167,7 +164,43 @@
         });
 
     });
+function send_data(){
+    var level = document.getElementById('level').value;
+    var m_client_id = 'test_id';
+    var tags = {};
 
+    
+    var i=0;
+    while(1){
+        try {
+            tags[document.getElementsByClassName("tagit-label")[i].innerHTML]=true;
+        } catch {
+            console.log(tags, 'eror!')
+            break;
+        }
+        // if(document.getElementsByClassName("tagit-label")[i].innerHTML==null) break;
+        // tags[document.getElementsByClassName("tagit-label")[i].innerHTML]=true;
+        i++;
+    }
+    console.log(tags);
+    
+    console.log(blog_data);
+    console.log('test')
+    $.ajax({
+            method: "POST",
+            url: "http://106.10.34.9:3000/write_post",
+            data: {
+                'client_id' : m_client_id, 
+                'og:title' : blog_data['og:title'],
+                'og:description' :blog_data['og:description'],
+                'og:image': blog_data['og:image'],
+                'og:url': blog_data['og:url'],
+                'level' : level,
+                'tags' :  tags}
+    }).done((data) => {
+        console.log(data);
+    });
+}
 </script>
 <link rel="stylesheet" type="text/css" href="slideControl.css" />
 <script type="text/javascript" src="jquery.slideControl.js"></script>
