@@ -36,6 +36,7 @@
     var provider2 = new firebase.auth.GoogleAuthProvider();
 
     var dummy = [];
+    var comment_postid;
     $(document).ready(function(){
         
         $.ajax({
@@ -49,17 +50,17 @@
                 // if (o.tag == app) return;
                 contentsHTML += `
                 <div>
-                    <a href="${o['og:url']}" target="_blank">
-                    <div>
-                        ${o['og:title']}
+                    <div class="post" data-postid="${o['post_id']}" data-url="${o['og:url']}">
+                        <div>
+                            ${o['og:title']}
+                        </div>
+                        <div>
+                            ${o['og:description']}
+                        </div>
+                        <div>
+                            <img src="${o['og:image']}">
+                        </div>
                     </div>
-                    <div>
-                        ${o['og:description']}
-                    </div>
-                    <div>
-                        <img src="${o['og:image']}">
-                    </div>
-                    </a>
                     <div>
                        level :  ${o['level']/o['level_count']}
 
@@ -68,7 +69,15 @@
                 `;
             });
             $('#contents').html(contentsHTML);
-            
+            $(".post").click(function() {
+                //새창 띄우고
+                window.open(this.dataset.url);
+
+                //모달 띄우고
+                console.log(this.dataset.postid);
+                comment_postid = this.dataset.postid;
+                $('#comment_modal').modal('show');
+            });
             $(".check").click(function(){  
                 var str = ""; 
                 $(".check").each(function(){  
@@ -322,5 +331,55 @@ function send_data(){
     </div>
 </div>
 </div>
+</div>
+<!------------------------------------------------------------------------>
+<!-- Modal -->
+ <!-- The Modal -->
+ <div class="modal fade" id="comment_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <!--slider-->
+                <div class="content">
+                    <label>level: </label><input type="text" value="6.0" class="slideControl" maxlength="3" id="comment_level" />
+               </div>
+    
+                <div class = "comment">
+                comment
+                <textarea name="comment_box" id = "comment" rows = "5" cols="50"> </textarea>
+                </div>
+                <input type="button" value="submit" onclick="send_comment_data()">
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- scripts -->
+<script type="text/javascript"> 
+
+    function send_comment_data () {
+       var level = document.getElementById('comment_level').value;
+       var m_client_id = 'test_id';
+       var m_com = $('#comment').val();
+   
+       console.log(m_com);
+       console.log(level);
+   
+       $.ajax({
+           method : "POST",
+           url : "http://106.10.34.9:3000/feedback_post",
+           data : { 
+               'client_id' : m_client_id,
+               'post_id' : '1E45XGW6k0qiWhWJwnfE',
+               'level' : level ,
+               'comment' : m_com   }
+           }).done((data) => {
+               console.log(data);
+       });
+   
+   
+    }
+   </script>
 </body>
 
