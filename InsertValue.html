@@ -1,0 +1,160 @@
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+
+<style>
+    /* The Modal (background) */
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 1;
+        /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 30%;
+        /* Could be more or less, depending on screen size */
+    }
+</style>
+
+
+<form>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            url: <input type="text" id="url" onfocusout="url_focusout()">
+            <table>
+                <tr data-href="www.naver.com" style="cursor:pointer;">
+                    <td>image</td>
+                </tr>
+                <tr data-href="www.naver.com" style="cursor:pointer;">
+                    <td>description</td>
+                </tr>
+            </table>
+            <div style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;"
+                onClick="close_pop();">
+                <span class="pop_bt" style="font-size: 13pt;">
+                    X
+                </span>
+            </div>
+            <!--tag-->
+            <ul id="removeConfirmationTags">
+                <li>tag</li>
+            </ul>
+            <!--slider-->
+            <div class="content">
+                <ul class="clearfix">
+                    <li><label>난이도: </label><input type="text" value="6.0" class="slideControl" maxlength="3" /></li>
+                </ul>
+            </div>
+            <input type="submit" value="등록">
+        </div>
+    </div>
+    <!--End Modal-->
+</form>
+
+<!-- 2 CSS files are required: -->
+<!--   * Tag-it's base CSS (jquery.tagit.css). -->
+<!--   * Any theme CSS (either a jQuery UI theme such as "flick", or one that's bundled with Tag-it, e.g. tagit.ui-zendesk.css as in this example.) -->
+<!-- The base CSS and tagit.ui-zendesk.css theme are scoped to the Tag-it widget, so they shouldn't affect anything else in your site, unlike with jQuery UI themes. -->
+<link href="css/jquery.tagit.css" rel="stylesheet" type="text/css">
+<link href="css/tagit.ui-zendesk.css" rel="stylesheet" type="text/css">
+<!-- If you want the jQuery UI "flick" theme, you can use this instead, but it's not scoped to just Tag-it like tagit.ui-zendesk is: -->
+<!--   <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css"> -->
+
+<!-- jQuery and jQuery UI are required dependencies. -->
+<!-- Although we use jQuery 1.4 here, it's tested with the latest too (1.8.3 as of writing this.) -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/tag-it.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+
+    jQuery(document).ready(function () {
+        $('#myModal').show();
+        $('table tr').click(function () {
+            window.open($(this).data('href'));
+        });
+        //slider
+        $('.slideControl').slideControl();
+        prettyPrint();
+    });
+    //팝업 Close 기능
+    function close_pop(flag) {
+        $('#myModal').hide();
+    };
+    function url_focusout() {
+        alert("aa");
+    }
+    //tag
+    $(function () {
+        var sampleTags = ['c++', 'java', 'php', 'coldfusion', 'javascript', 'asp', 'ruby', 'python', 'c', 'scala', 'groovy', 'haskell', 'perl', 'erlang', 'apl', 'cobol', 'go', 'lua'];
+
+        //-------------------------------
+        // Tag events
+        //-------------------------------
+        var eventTags = $('#eventTags');
+
+        var addEvent = function (text) {
+            $('#events_container').append(text + '<br>');
+        };
+
+        eventTags.tagit({
+            availableTags: sampleTags,
+            beforeTagAdded: function (evt, ui) {
+                if (!ui.duringInitialization) {
+                    addEvent('beforeTagAdded: ' + eventTags.tagit('tagLabel', ui.tag));
+                }
+            },
+            afterTagAdded: function (evt, ui) {
+                if (!ui.duringInitialization) {
+                    addEvent('afterTagAdded: ' + eventTags.tagit('tagLabel', ui.tag));
+                }
+            },
+            beforeTagRemoved: function (evt, ui) {
+                addEvent('beforeTagRemoved: ' + eventTags.tagit('tagLabel', ui.tag));
+            },
+            afterTagRemoved: function (evt, ui) {
+                addEvent('afterTagRemoved: ' + eventTags.tagit('tagLabel', ui.tag));
+            },
+            onTagClicked: function (evt, ui) {
+                addEvent('onTagClicked: ' + eventTags.tagit('tagLabel', ui.tag));
+            },
+            onTagExists: function (evt, ui) {
+                addEvent('onTagExists: ' + eventTags.tagit('tagLabel', ui.existingTag));
+            }
+        });
+
+        //-------------------------------
+        // Remove confirmation
+        //-------------------------------
+        $('#removeConfirmationTags').tagit({
+            availableTags: sampleTags,
+            removeConfirmation: true
+        });
+
+    });
+
+</script>
+<link rel="stylesheet" type="text/css" href="slideControl.css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<script type="text/javascript" src="jquery.slideControl.js"></script>
