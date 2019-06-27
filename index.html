@@ -7,6 +7,9 @@
     <div id="login">Log In</div>
     <div id="status">status</div>
     <div id="logout">Log Out</div>
+    
+<link rel="stylesheet" href="./add_post.css"> <!-- 변경사항-->
+
 </header>
 <body>
     <!--search-->
@@ -310,26 +313,40 @@ function send_data(){
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        url: <input type="text" id="url" onfocusout="url_focusout()">
-        <table>
-            <tr data-href="www.naver.com" style="cursor:pointer;">
-                <td><img src="#" id='image'></td>
-            </tr>
-            <tr data-href="www.naver.com" style="cursor:pointer;">
-                <td id='description'>description</td>
-            </tr>
-        </table>
-        <!--tag-->
-        <ul id="removeConfirmationTags">
-            <li>tag</li>
-        </ul>
+
+            <div class = "modal-head">
+            <div class="new">NEW
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+        </div>
+
+           <div id="url_box"> URL 
+                <input type="text" id="url" onfocusout="url_focusout()"> 
+            </div>
+        
+        <!--tag--> <div id="tag_box">TAG
+             <ul id="removeConfirmationTags"> <li>tag</li>  </ul>
+            </div>
+
         <!--slider-->
         <div class="content">
-            <label>level: </label><input type="text" value="6.0" class="slideControl" maxlength="3" name="level" id="level"/>
+            <label id="level_box"> level</label><input type="text" value="6.0" class="slideControl" maxlength="3" name="level" id="level"/>
         </div>
-        <input type="button" value="submit" onclick="send_data()" data-dismiss="modal" aria-label="Close"></input>
-        
+       
+        <table id="table_box">
+                <tr data-href="www.naver.com" style="cursor:pointer;">
+                    <td><img src="#" id='image'></td>
+                </tr>
+                <tr data-href="www.naver.com" style="cursor:pointer;">
+                    <td id='description'>description</td>
+                </tr>
+        </table>
+
+        <div id="submit_box">
+            <input type="button" value="submit" onclick="send_data()" data-dismiss="modal" aria-label="Close" id="submit_button">
+        </input>
+        </div>
+
     </div>
 </div>
 </div>
@@ -389,4 +406,3 @@ function send_data(){
     }
    </script>
 </body>
-

@@ -1,0 +1,75 @@
+
+.new {
+    font-family: NanumSquareEB;
+    font-size : 20px;
+    color: #3b52c2;
+    text-align : center;
+}
+#url_box {
+    margin-top : 25px;
+    margin-left : 10px;
+    font-family: NanumSquareR;
+    font-size : 13 px;
+    line-height: 1.17;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+}
+#url {
+    width: 440px;
+    height: 16px;
+    border: solid 0.25px #707070;
+    background-color: #ffffff;
+    margin-left : 20px;
+}
+#tag_box {
+    margin-top : 25px;
+    margin-left : 10px;
+    font-family: NanumSquareR;
+    font-size : 13 px;
+    line-height: 1.17;
+    letter-spacing: normal;
+    text-align: left;
+    color: #000000;
+}
+#removeConfirmationTags {
+    width: 440px;
+    height: 98px;
+    background-color: #eceaea;
+    margin-left : 50px;
+}
+#table_box {
+    width: 440px;
+  height: 60px;
+  opacity: 0.4;
+  box-shadow: 3px 3px 30px 0 rgba(95, 95, 95, 0.3);
+  background-color: #ffffff;
+  margin-top : 25px;
+  margin-left : 61.5px;
+}
+#submit_box {
+}
+#submit_button {
+    margin-top : 30px;  
+    width: 490px;
+    height: 24px;
+    margin-left : 10px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    background-color: #06d87e;
+}
+@font-face {
+    font-family: NanumSquareEB;
+    src: url(./NanumSquareExtraBold.ttf) format('truetype');
+}
+@font-face {
+    font-family: NanumSquareB;
+    src: url(./NanumSquareBold.ttf) format('truetype');
+}
+@font-face {
+    font-family: NanumSquareL;
+    src: url(./NanumSquareLight.ttf) format('truetype');
+}
+@font-face {
+    font-family: NanumSquareR;
+    src: url(./NanumSquareRegular.ttf) format('truetype');
+}
