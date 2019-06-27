@@ -16,9 +16,40 @@
         
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
+    var dummy = [];
     $(document).ready(function(){
-
-        const dummy = [
+        $.ajax({
+            method: "GET",
+            url: "http://106.10.34.9:3000/main_page",
+            data: {}
+        }).done(function (data) {
+            dummy = data;
+            console.log(dummy);
+            let contentsHTML = '';
+            dummy[1].forEach(o => { 
+                // if (o.tag == app) return;
+                contentsHTML += `
+                <div>
+                    <a href="${o['og:url']}" target="_blank">
+                    <div>
+                        ${o['og:title']}
+                    </div>
+                    <div>
+                        ${o['og:description']}
+                    </div>
+                    <div>
+                        <img src="${o['og:image']}">
+                    </div>
+                    </a>
+                    <div>
+                       난이도 :  ${o['level']/o['level_count']}
+                    </div>
+                </div>
+                `;
+            });
+            $('#contents').html(contentsHTML);
+        });
+      /*  dummy = [
             {
                 url : 'https://www.naver.com',
                 title : 'a',
@@ -44,30 +75,8 @@
                 like: '5'
             }
         ];
-
-        let contentsHTML = '';
-        dummy.forEach(o => { 
-            // if (o.tag == app) return;
-            contentsHTML += `
-            <div>
-                <a href="${o.url}" target="_blank">
-                <div>
-                    ${o.title}
-                </div>
-                <div>
-                    ${o.desc}
-                </div>
-                <div>
-                    <img src="${o.img}">
-                </div>
-                </a>
-                <div>
-                    ${o.like}
-                </div>
-            </div>
-            `;
-        });
-        $('#contents').html(contentsHTML);
+*/
+        
     });
     //태그받아오기
     function get_tags() {
@@ -89,7 +98,7 @@
         $('#tags').html(tagsHTML);
     }
     function search_tag(){
-        
+
     }
     </script>
     <!--tag-->
