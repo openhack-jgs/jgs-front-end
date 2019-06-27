@@ -159,6 +159,7 @@
   <script src="assets/js/docs.js"></script>
 
   <script type="text/javascript">
+    var comment_postid;
     $('.dev-init-logo').click(() => {
       window.location.href = './index.html';
     })
@@ -350,7 +351,7 @@
             </div>
             <div class="dev-init-post__right">
 
-              <div class="dev-init-post__right-left" data-postid="${o['post_id']}" data-url="${o['og:url']}">
+              <div class="dev-init-post__right-left" data-postid="${o['post_id']}" data-url="${o['og:url']}" data-tags="${o['tags']}">
                 <div>
                   <h3 class="dev-init-title">${o['og:title']}</h3>
                   <p class="dev-init-description">${o['og:description']}</p>
@@ -385,6 +386,7 @@
           //모달 띄우고
           // console.log(this.dataset.postid);
           comment_postid = this.dataset.postid;
+          comment_tags = this.dataset.tags;
           console.log(comment_postid);
           console.log(comment_postid);
           console.log(comment_postid);
@@ -552,7 +554,7 @@
         url: "http://106.10.34.9:3000/feedback_post",
         data: {
           'client_id': m_client_id,
-          'post_id': '1E45XGW6k0qiWhWJwnfE',
+          'post_id': comment_postid,
           'level': level,
           'comment': m_com
         }
