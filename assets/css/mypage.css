@@ -1,21 +1,23 @@
 div.dev-init-header {
-  height: 70px;
+  height: 500px;
   display:flex;
   /* justify-content:left; */
   justify-content: space-between;
-  align-items:center;
+  align-items: flex-start;
   
   text-align: left;
-  background: linear-gradient(140deg, #3b52c2 80%, #06d87e 60%);
+  background: linear-gradient(100deg, #3b52c2 80%, #06d87e 60%);
   opacity: 1 !important;
 }
 div.dev-init-header > .dev-init-logo {
   /* padding-top: 7%; */
   /* max-width:60%; max-height:60%; */
+  margin-top: 12.5px;
   height: 45px;
 }
 div.dev-init-header > .dev-init-icons {
-  max-width:100%; max-height:100%;
+  /* max-width:100%; max-height:100%; */
+  /* height: 45px; */
 }
 .dev-init-padding {
   width: 5px;
@@ -34,8 +36,10 @@ div.dev-init-header {
 img.dev-init-search, img.dev-init-profile {
   width: 25px; 
   height: 25px;
+  margin-top:12.5px;
 }
 #dev-init-login {
+  margin-top: 12.5px;
   font-size: 1.5rem;
   font-weight: bold;
   color: white;
@@ -48,6 +52,10 @@ img.dev-init-filter {
 }
 
 div.dev-init-search-container {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color:white;
   /* box-shadow: black; */
   box-shadow: 0 3px 30px 0 rgba(0,0,0,0.16);
@@ -225,48 +233,4 @@ footer {
 
 .my-float{
 	margin-top:22px;
-}
-
-#dev-init-filter-box {
-  width: 100%;
-  height: 145px;
-  box-shadow: 3px 3px 50px 0 rgba(95, 95, 95, 0.1);
-  background-color: #f4f6fd;
-  margin: 30px 0 30px 0;
-  padding: 20px 30px;
-  display:flex;
-}
-.dev-init-category {
-  color: #9c9c9c;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.dev-init-category-item {
-  flex: 9;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.dev-init-category-web, .dev-init-category-app,
-.dev-init-category-web-sub, .dev-init-category-app-sub{
-  display: flex;
-  align-items: left;
-  justify-content: left;
-}
-.dev-init-category-tag, .dev-init-category-web-sub-box {
-  padding: 5px;
-  color: #4a4a4a;
-  margin-right: 5px;
-}
-.dev-init-category-tag-selected {
-  color: white;
-  font-weight: bold;
-  border-radius: 3px;
-  background-color: #3b52c2;
-}
-
-.dev-init-category-web-sub {
-  background-color : #e6eafb;
 }

@@ -78,11 +78,11 @@
     </div>
 
     <div id="dev-init-filter-container">
-
+      
     </div>
 
     <div id="dev-init-posts-container">
-
+    <!--  -->
     </div>
   </div>
 
@@ -110,11 +110,93 @@
 
   <script type="text/javascript">
     var provider2 = new firebase.auth.GoogleAuthProvider();
+    var tag_infos;
     $('#add_filter').click(() => {
-      $('#dev-init-filter-container').html("<div>123</div>")
-
+      $('#dev-init-filter-container').html(`<div id="dev-init-filter-box">
+        <div class="dev-init-category">
+          <div class="dev-init-category-tag">
+            <b>Web</b>
+          </div>
+          <div class="dev-init-category-web-sub-box">
+            <!--  -->
+          </div>
+          <div class="dev-init-category-tag">
+            <b>App</b>
+          </div>
+          <div class="dev-init-category-app-sub-box">
+            <!--  -->
+          </div>
+        </div>
+        <div class="dev-init-category-item">
+          <div class="dev-init-category-web">
+            <!--  -->
+          </div>
+          <div class="dev-init-category-web-sub">
+            <!--  -->
+          </div> 
+          <div class="dev-init-category-app">
+            <!--  -->
+          </div>
+          <div class="dev-init-category-app-sub">
+            <!--  -->
+          </div>
+        </div>
+      </div>`);
+      
+      let contentsHTML_web = '';
+      let contentsHTML_app = '';
+      tag_infos.forEach((item) => {
+          const random_key = Math.random();
+          if (item['type'] == 'WEB') {
+            tag_list[item['name']] = item['tag'];
+            contentsHTML_web += 
+            `
+            <div id="${random_key}" type="web" class="dev-init-category-tag" onclick="toggle_css(${random_key}, 'web', 1)">${item['name']}</div>
+            `;
+          } else {
+            contentsHTML_app += 
+            `
+            <div id="${random_key}" type="app" class="dev-init-category-tag" onclick="toggle_css(${random_key}, 'app', 1)">${item['name']}</div>
+            `;
+          }          
+        })
+        $('.dev-init-category-web').html(contentsHTML_web);
+        $('.dev-init-category-app').html(contentsHTML_app);
     });
 
+    var tag_list = {}
+
+    var toggle_css = function(key, type, flag) {
+      document.getElementById(`${key}`).classList.toggle("dev-init-category-tag-selected");      
+
+      if (flag == 1) {
+        if(document.getElementsByClassName('dev-init-category-tag-selected').item(0).innerHTML) {
+          if (type == 'web') {
+            var temp = tag_list[document.getElementsByClassName('dev-init-category-tag-selected').item(0).innerHTML];
+            var tempHTML_web = '';
+            for (var key in temp) {
+              const random_key = Math.random();
+              tempHTML_web +=
+              `
+              <div id="${random_key}" type="web" class="dev-init-category-tag" onclick="toggle_css(${random_key}, 'web', 0)">${key}</div>
+              `;
+            }
+            $('.dev-init-category-web-sub').html(tempHTML_web);
+          } else {
+            var temp = tag_list[document.getElementsByClassName('dev-init-category-tag-selected').item(0).innerHTML];
+            var tempHTML_app = '';
+            for (var key in temp) {
+              const random_key = Math.random();
+              tempHTML_app +=
+              `
+              <div id="${random_key}" type="web" class="dev-init-category-tag" onclick="toggle_css(${random_key}, 'app', 0)">${key}</div>
+              `;
+            }
+            $('.dev-init-category-app-sub').html(tempHTML_app);
+          }
+        }
+      }
+    }
     $(document).ready(function () {
       $.ajax({
         method: "GET",
@@ -122,7 +204,29 @@
         data: {}
       }).then(function (data) {
         // console.log(dummy);
+        console.log(data[0])
         let contentsHTML = '';
+        let contentsHTML_web = '';
+        let contentsHTML_app = '';
+        tag_infos = data[0];
+        data[0].forEach((item) => {
+          const random_key = Math.random();
+          if (item['type'] == 'WEB') {
+            tag_list[item['name']] = item['tag'];
+            contentsHTML_web += 
+            `
+            <div id="${random_key}" type="web" class="dev-init-category-tag" onclick="toggle_css(${random_key}, 'web', 1)">${item['name']}</div>
+            `;
+          } else {
+            contentsHTML_app += 
+            `
+            <div id="${random_key}" type="app" class="dev-init-category-tag" onclick="toggle_css(${random_key}, 'app', 1)">${item['name']}</div>
+            `;
+          }          
+        })
+        $('.dev-init-category-web').html(contentsHTML_web);
+        $('.dev-init-category-app').html(contentsHTML_app);
+
         data[1].forEach(o => {
           var avg_level = Math.round(Number(o['level'] / o['level_count']));
           // if (o.tag == app) return;
@@ -133,6 +237,7 @@
               <img class="dev-init-img" src="${o['og:image']}">
             </div>
             <div class="dev-init-post__right">
+
               <div class="dev-init-post__right-left">
                 <div>
                   <h3 class="dev-init-title">${o['og:title']}</h3>
@@ -143,6 +248,7 @@
                   <li>tag2</li>
                 </ul>
               </div>
+
               <div class="dev-init-post__right-right">
                 <div class="dev-init-level">
                   <span class="dev-init-level-label">Lv</span>
@@ -159,7 +265,8 @@
         });
 
         $('#dev-init-posts-container').html(contentsHTML);
-        $(".dev-init-post").click(function () {
+
+        $(".dev-init-post__right-left").click(function () {
           //새창 띄우고
           window.open(this.dataset.url);
 

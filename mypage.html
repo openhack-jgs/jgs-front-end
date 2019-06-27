@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" content="$ dev init" />
+  <meta property="og:description" content="initialize your development through good material" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="http://github.com/openhack-jgs/" />
+  <!-- <meta property="og:image" content="http://lipis.github.io/bootstrap-social/assets/img/bootstrap-social.png" /> -->
+
+  <title>dev init</title>
+  <link href="assets/css/bootstrap.css" rel="stylesheet">
+  <link href="assets/css/font-awesome.css" rel="stylesheet">
+  <link href="assets/css/docs.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="assets/css/mypage.css" rel="stylesheet">
+
+  <link href="bootstrap-social.css" rel="stylesheet">
+
+  <!-- google analytics -->
+  <!-- <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-42119746-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script> -->
+  <script src="https://code.jquery.com/jquery-latest.js"></script>
+  <link rel="stylesheet" type="text/css" href="slideControl.css" />
+  <script type="text/javascript" src="jquery.slideControl.js"></script>
+</head>
+
+<body>
+  <div class="dev-init-header">
+    <img class="dev-init-logo" src="assets/img/dev_init_logo.png" />
+    <div class="dev-init-icons">
+      <div class="dev-init-icons-box">
+        <!-- <span class="dev-init-padding"></span> -->
+        <img class="dev-init-profile" src="assets/img/dev_init_profile.png" />
+        &nbsp&nbsp&nbsp
+        <!-- <span class="dev-init-padding"></span> -->
+        <span id="dev-init-login">Log Out</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="dev-init-search-container">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+    </div>
+
+    <div id="dev-init-filter-container">
+
+    </div>
+
+    <div id="dev-init-posts-container">
+
+    </div>
+  </div>
+
+  <footer>
+  </footer>
+
+  <img src="./assets/img/dev_init_plus.png" class="float">
+  <!-- <a href="#" class="float">
+    <i class="fa fa-plus my-float"></i>
+  </a> -->
+
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-app.js"></script>
+
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-firestore.js"></script>
+  <script src="./init-firebase.js"></script>
+
+  <script src="./bootstrap.js"></script>
+  <link rel="stylesheet" href="./bootstrap.css">
+
+  <script src="assets/js/jquery.js"></script>
+  <script src="assets/js/docs.js"></script>
+
+  <script type="text/javascript">
+    var provider2 = new firebase.auth.GoogleAuthProvider();
+    
+    $(document).ready(function () {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          // User is signed in.
+          var displayName = user.displayName;
+          var email = user.email;
+          var emailVerified = user.emailVerified;
+          var photoURL = user.photoURL;
+          var isAnonymous = user.isAnonymous;
+          var uid = user.uid;
+          var providerData = user.providerData;
+          // ...
+          console.log(user);
+          console.log(user.uid);
+          $.ajax({
+            method: "POST",
+            url: "http://106.10.34.9:3000/liked_post",
+            data: {
+              'client_id': user.uid,
+            }
+          }).done((data) => {
+            console.log("11");
+            console.log(data.date());
+            console.log("2");
+          })
+        } else {
+          // User is signed out.
+          // ...
+          alert("로그인이 필요한 서비스입니다.");
+          window.location.href = './index.html';
+        }
+      });
+
+      $.ajax({
+        method: "GET",
+        url: "http://106.10.34.9:3000/main_page",
+        data: {}
+      }).then(function (data) {
+        // console.log(dummy);
+        let contentsHTML = '';
+        data[1].forEach(o => {
+          var avg_level = Math.round(Number(o['level'] / o['level_count']));
+          // if (o.tag == app) return;
+          contentsHTML +=
+            `
+          <div class="dev-init-post" data-postid="${o['post_id']}" data-url="${o['og:url']}">
+            <div class="dev-init-img-box">
+              <img class="dev-init-img" src="${o['og:image']}">
+            </div>
+            <div class="dev-init-post__right">
+              <div class="dev-init-post__right-left">
+                <div>
+                  <h3 class="dev-init-title">${o['og:title']}</h3>
+                  <p class="dev-init-description">${o['og:description']}</p>
+                </div>
+                <ul class="dev-init-tags">
+                  <li>tag1</li>
+                  <li>tag2</li>
+                </ul>
+              </div>
+              <div class="dev-init-post__right-right">
+                <div class="dev-init-level">
+                  <span class="dev-init-level-label">Lv</span>
+                  <span class="dev-init-level-data">${avg_level}</span>
+                </div>
+                <div class="dev-init-heart">
+                  <img class="dev-init-heart-icon" src="assets/img/dev_init_heart.png">
+                  <div class="dev-init-heart-data">${o['like_count']}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          `;
+        });
+
+        $('#dev-init-posts-container').html(contentsHTML);
+
+        $("#dev-init-login").click(() => {
+          console.log('ci')
+          firebase.auth().signInWithPopup(provider2).then(function (result) {
+            console.log("333...")
+            // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+            var token = result.credential.accessToken;
+            // The signed-in user info.
+            var user = result.user;
+            // ...
+            console.log(token);
+            console.log(user);
+          }).catch(function (error) {
+            console.log(error);
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // The email of the user's account used.
+            var email = error.email;
+            // The firebase.auth.AuthCredential type that was used.
+            var credential = error.credential;
+            // ...
+          });
+        });
+        $("#status").click(() => {
+          firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+              // User is signed in.
+              var displayName = user.displayName;
+              var email = user.email;
+              var emailVerified = user.emailVerified;
+              var photoURL = user.photoURL;
+              var isAnonymous = user.isAnonymous;
+              var uid = user.uid;
+              var providerData = user.providerData;
+              // ...
+              console.log(user);
+            } else {
+              // User is signed out.
+              // ...
+              console.log('nono')
+            }
+          });
+
+        });
+        $("#logout").click(() => {
+          firebase.auth().signOut().then(function () {
+            console.log("Sign-out successful")
+          }).catch(function (error) {
+            console.log("An error happened.")
+          });
+        })
+      });
+    });
+  </script>
+</body>
+
+</html>
