@@ -384,6 +384,7 @@
           window.open(this.dataset.url);
 
           //모달 띄우고
+          get_post_tags();
           // console.log(this.dataset.postid);
           comment_postid = this.dataset.postid;
           comment_tags = this.dataset.tags;
@@ -400,34 +401,86 @@
   <!------------------------------------------------------------------------>
   <!-- Modal -->
   <!-- The Modal -->
-  <div class="modal fade" id="comment_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-    aria-hidden="true">
+ <div class="modal fade" id="comment_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-              aria-hidden="true">&times;</span></button>
-          <!--slider-->
-          <div class="content">
-            <label>level: </label><input type="text" value="6.0" class="slideControl" maxlength="3"
-              id="comment_level" />
-          </div>
+        <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                 <div class="FEEDBACK">FEED BACK</div>
+                 <div class="TAG">TAG</div>
+                 <ul id="removeConfirmationTags2"></ul>
+                 <div onclick="tag_problem();" class="tag_problem_font">select uncorrent tag</div>
+                  <!--slider-->
+                <div class="content">
+                    <label class="LEVEL">LEVEL: </label><input type="text" value="6.0" class="slideControl" maxlength="3" id="comment_level" />
+               </div>
+    
+                <div class = "comment">
+                COMMENT
+                <textarea name="comment_box" id = "comment" rows = "5" cols="50"> </textarea>
+                </div>
 
-          <div class="comment">
-            comment
-            <textarea name="comment_box" id="comment" rows="5" cols="50"> </textarea>
-          </div>
-          <input type="button" value="submit" onclick="send_comment_data()" data-dismiss="modal"
-            aria-label="Close"></input>
+                <input type="button" value="submit" onclick="send_comment_data()" data-dismiss="modal" aria-label="Close"></input>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
   <!-- Button trigger modal -->
   <!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
     Launch demo modal
   </button> -->
   <script>
+
+function tag_problem(){
+        let tagsHTML = '';
+        $.ajax({
+            method: "GET",
+            url: "http://106.10.34.9:3000/main_page",    //태그 url 수정
+            data: {}
+        })
+            .done(function (data) {
+                console.log(data);
+               // alert(comment_postid);
+                var i=0;
+                while(1){
+                    if(comment_postid != data[1][i]['post_id']) {i++; continue;}
+                    for(var key in data[1][i]['tags']){
+                        tagsHTML += `
+                        <li class="tagit-choice ui-widget-content ui-state-default ui-corner-all tagit-choice-editable"><span class="tagit-label" onclick="this.style.color='red';">${key}</span><a class="tagit-close"><span>x</span><span class="ui-icon ui-icon-close"></span></a><input type="hidden" value="tag" name="tags" class="tagit-hidden-field"></li>              
+                    `;
+                    }
+                    break;
+                }
+              console.log(tagsHTML);
+                $('#removeConfirmationTags2').html(tagsHTML);
+            });
+    }
+
+    function get_post_tags() {
+        let tagsHTML = '';
+        $.ajax({
+            method: "GET",
+            url: "http://106.10.34.9:3000/main_page",    //태그 url 수정
+            data: {}
+        })
+            .done(function (data) {
+                console.log(data);
+               // alert(comment_postid);
+                var i=0;
+                while(1){
+                    if(comment_postid != data[1][i]['post_id']) {i++; continue;}
+                    for(var key in data[1][i]['tags']){
+                        tagsHTML += `
+                        <li class="tagit-choice ui-widget-content ui-state-default ui-corner-all tagit-choice-editable"><span class="tagit-label">${key}</span><a class="tagit-close"><span class="ui-icon ui-icon-close"></span></a><input type="hidden" value="tag" name="tags" class="tagit-hidden-field"></li>              
+                    `;
+
+                    }
+                    break;
+                }
+              console.log(tagsHTML);
+                $('#removeConfirmationTags2').html(tagsHTML);
+            });
+    }
     function url_focusout() {
       const m_name = $('#url').val();
       console.log(m_name)
@@ -489,6 +542,10 @@
       // Remove confirmation
       //-------------------------------
       $('#removeConfirmationTags').tagit({
+        availableTags: sampleTags,
+        removeConfirmation: true
+      });
+      $('#removeConfirmationTags2').tagit({
         availableTags: sampleTags,
         removeConfirmation: true
       });
