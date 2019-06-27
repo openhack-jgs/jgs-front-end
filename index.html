@@ -17,7 +17,6 @@
         </form>    
     </section> 
             
-
     <section class ="Tag_section">
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-app.js"></script>
@@ -203,6 +202,8 @@ function url_focusout() {
             });
     }
     //tag
+
+
     $(function () {
         var sampleTags = ['c++', 'java', 'php', 'coldfusion', 'javascript', 'asp', 'ruby', 'python', 'c', 'scala', 'groovy', 'haskell', 'perl', 'erlang', 'apl', 'cobol', 'go', 'lua'];
 
@@ -327,7 +328,8 @@ function send_data(){
         <div class="content">
             <label>level: </label><input type="text" value="6.0" class="slideControl" maxlength="3" name="level" id="level"/>
         </div>
-        <input type="button" value="submit" onclick="send_data()">
+        <input type="button" value="submit" onclick="send_data()" data-dismiss="modal" aria-label="Close"></input>
+        
     </div>
 </div>
 </div>
@@ -349,7 +351,7 @@ function send_data(){
                 comment
                 <textarea name="comment_box" id = "comment" rows = "5" cols="50"> </textarea>
                 </div>
-                <input type="button" value="submit" onclick="send_comment_data()">
+                <input type="button" value="submit" onclick="send_comment_data()" data-dismiss="modal" aria-label="Close"></input>
             </div>
         </div>
     </div>
@@ -357,6 +359,13 @@ function send_data(){
 
     <!-- scripts -->
 <script type="text/javascript"> 
+     jQuery(document).ready(function () {
+        $('table tr').click(function () {
+            window.open($(this).data('href'));
+        });
+        //slider
+        $('.slideControl').slideControl();
+    });
 
     function send_comment_data () {
        var level = document.getElementById('comment_level').value;
@@ -377,8 +386,6 @@ function send_data(){
            }).done((data) => {
                console.log(data);
        });
-   
-   
     }
    </script>
 </body>
