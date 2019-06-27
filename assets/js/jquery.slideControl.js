@@ -13,8 +13,8 @@
 		
 		// defaults
 		var defaults = {
-			speed: 400,
-			lowerBound: 1,
+			speed: 300,
+			lowerBound: 0,
 			upperBound: 10
 		};
 
@@ -30,7 +30,7 @@
 			$(this).addClass('slideControlInput');
 			var parent = $(this).parent();
 			var label = $(parent).find('label');
-			parent.html("<label>" + $(label).html() + "</label><span class=\"slideControlContainer\"><span class=\"slideControlFill\" style=\"width:" + $(obj).val()*10 + "%\"><span class=\"slideControlHandle\"></span></span></span>" + $(obj).wrap("<span></span>").parent().html());
+			parent.html("<span class=\"slideControlContainer\"><span class=\"slideControlFill\" style=\"width:" + $(obj).val()*10 + "%\"><span class=\"slideControlHandle\"></span></span></span>" + $(obj).wrap("<span></span>").parent().html());
 			var container = parent.find('.slideControlContainer');
 			var fill = container.find('.slideControlFill');
 			var handle = fill.find('.slideControlHandle');

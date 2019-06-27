@@ -19,7 +19,7 @@
   <link href="assets/css/font-awesome.css" rel="stylesheet">
   <link href="assets/css/docs.css" rel="stylesheet">
   <link href="assets/css/style.css" rel="stylesheet">
-
+  <link href="assets/css/add_post.css" rel="stylesheet">
   <link href="bootstrap-social.css" rel="stylesheet">
 
   <!-- google analytics -->
@@ -36,7 +36,6 @@
     </script> -->
   <script src="https://code.jquery.com/jquery-latest.js"></script>
   <link rel="stylesheet" type="text/css" href="./assets/css/slideControl.css" />
-  <script type="text/javascript" src="./assets/js/jquery.slideControl.js"></script>
 </head>
 
 <body>
@@ -82,21 +81,68 @@
     </div>
 
     <div id="dev-init-filter-container">
-      
+
     </div>
 
     <div id="dev-init-posts-container">
-    <!--  -->
+      <!--  -->
     </div>
   </div>
 
   <footer>
   </footer>
 
-  <img src="./assets/img/dev_init_plus.png" class="float">
+  <img src="./assets/img/dev_init_plus.png" class="float" data-toggle="modal" data-target="#myModal">
   <!-- <a href="#" class="float">
     <i class="fa fa-plus my-float"></i>
   </a> -->
+
+  <!-- Modal -->
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+
+        <div class="modal-head">
+          <div class="new">NEW
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                aria-hidden="true">&times;</span></button>
+          </div>
+        </div>
+
+        <div id="url_box"> URL
+          <input type="text" id="url" onfocusout="url_focusout()">
+        </div>
+
+        <!--tag-->
+        <div id="tag_box">TAG
+          <ul id="removeConfirmationTags">
+            <li>tag</li>
+          </ul>
+        </div>
+
+        <!--slider-->
+        <div class="content">
+          <input type="hidden" value="6.0" class="slideControl" maxlength="3"
+            name="level" id="level" />
+        </div>
+
+        <table id="table_box">
+          <tr data-href="www.naver.com" style="cursor:pointer;" id="img_box">
+            <td><img src="#" id='image' style=" width: 40px; height: 40px;"></td>
+            <td id='description' style="color:#000000 ; font-family: NanumSquareR; font-size :12px;">description</td>
+          </tr>
+        </table>
+
+        <div id="submit_box">
+          <input type="button" value="submit" style="color:#ffffff; font-family: NanumSquareB; font-size:12px;"
+            onclick="send_data()" data-dismiss="modal" aria-label="Close" id="submit_button">
+          </input>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
   <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-app.js"></script>
@@ -106,10 +152,10 @@
   <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-firestore.js"></script>
   <script src="./init-firebase.js"></script>
 
+  <script src="assets/js/jquery.js"></script>
   <script src="./assets/js/bootstrap.js"></script>
   <link rel="stylesheet" href="./assets/css/bootstrap.css">
 
-  <script src="assets/js/jquery.js"></script>
   <script src="assets/js/docs.js"></script>
 
   <script type="text/javascript">
@@ -156,38 +202,38 @@
       let contentsHTML_web = '';
       let contentsHTML_app = '';
       tag_infos.forEach((item) => {
-          const random_key = Math.random();
-          if (item['type'] == 'WEB') {
-            tag_list[item['name']] = item['tag'];
-            contentsHTML_web += 
+        const random_key = Math.random();
+        if (item['type'] == 'WEB') {
+          tag_list[item['name']] = item['tag'];
+          contentsHTML_web +=
             `
             <div id="${random_key}" type="web" class="dev-init-category-tag" onclick="toggle_css(${random_key}, 'web', 1)">${item['name']}</div>
             `;
-          } else {
-            contentsHTML_app += 
+        } else {
+          contentsHTML_app +=
             `
             <div id="${random_key}" type="app" class="dev-init-category-tag" onclick="toggle_css(${random_key}, 'app', 1)">${item['name']}</div>
             `;
-          }          
-        })
-        $('.dev-init-category-web').html(contentsHTML_web);
-        $('.dev-init-category-app').html(contentsHTML_app);
+        }
+      })
+      $('.dev-init-category-web').html(contentsHTML_web);
+      $('.dev-init-category-app').html(contentsHTML_app);
     });
 
     var tag_list = {}
 
-    var toggle_css = function(key, type, flag) {
-      document.getElementById(`${key}`).classList.toggle("dev-init-category-tag-selected");      
+    var toggle_css = function (key, type, flag) {
+      document.getElementById(`${key}`).classList.toggle("dev-init-category-tag-selected");
 
       if (flag == 1) {
-        if(document.getElementsByClassName('dev-init-category-tag-selected').item(0).innerHTML) {
+        if (document.getElementsByClassName('dev-init-category-tag-selected').item(0).innerHTML) {
           if (type == 'web') {
             var temp = tag_list[document.getElementsByClassName('dev-init-category-tag-selected').item(0).innerHTML];
             var tempHTML_web = '';
             for (var key in temp) {
               const random_key = Math.random();
               tempHTML_web +=
-              `
+                `
               <div id="${random_key}" type="web" class="dev-init-category-tag" onclick="toggle_css(${random_key}, 'web', 0)">${key}</div>
               `;
             }
@@ -198,7 +244,7 @@
             for (var key in temp) {
               const random_key = Math.random();
               tempHTML_app +=
-              `
+                `
               <div id="${random_key}" type="web" class="dev-init-category-tag" onclick="toggle_css(${random_key}, 'app', 0)">${key}</div>
               `;
             }
@@ -228,21 +274,21 @@
         // ...
       });
     };
-    
+
     var logout = () => {
       var result = confirm("정말로 로그아웃하시겠습니까?");
-      if(result){
+      if (result) {
         firebase.auth().signOut().then(function () {
           // alert("정상적으로 로그아웃되었습니다!");
         }).catch(function (error) {
           alert("서버에 문제가 있어 로그아웃에 실패했습니다.")
         });
-      }else{
+      } else {
         // alert("저런~ 2018년에는 꼭 모두 이루세요!!");
       }
-      
+
     }
-    
+
     $(document).ready(function () {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
@@ -263,7 +309,7 @@
           $("#dev-init-login").html(`<div onclick="login()">Log In</div>`);
         }
       });
-      
+
       $.ajax({
         method: "GET",
         url: "http://106.10.34.9:3000/main_page",
@@ -279,16 +325,16 @@
           const random_key = Math.random();
           if (item['type'] == 'WEB') {
             tag_list[item['name']] = item['tag'];
-            contentsHTML_web += 
-            `
+            contentsHTML_web +=
+              `
             <div id="${random_key}" type="web" class="dev-init-category-tag" onclick="toggle_css(${random_key}, 'web', 1)">${item['name']}</div>
             `;
           } else {
-            contentsHTML_app += 
-            `
+            contentsHTML_app +=
+              `
             <div id="${random_key}" type="app" class="dev-init-category-tag" onclick="toggle_css(${random_key}, 'app', 1)">${item['name']}</div>
             `;
-          }          
+          }
         })
         $('.dev-init-category-web').html(contentsHTML_web);
         $('.dev-init-category-app').html(contentsHTML_app);
@@ -298,13 +344,13 @@
           // if (o.tag == app) return;
           contentsHTML +=
             `
-          <div class="dev-init-post" data-postid="${o['post_id']}" data-url="${o['og:url']}">
+          <div class="dev-init-post">
             <div class="dev-init-img-box">
               <img class="dev-init-img" src="${o['og:image']}">
             </div>
             <div class="dev-init-post__right">
 
-              <div class="dev-init-post__right-left">
+              <div class="dev-init-post__right-left" data-postid="${o['post_id']}" data-url="${o['og:url']}">
                 <div>
                   <h3 class="dev-init-title">${o['og:title']}</h3>
                   <p class="dev-init-description">${o['og:description']}</p>
@@ -339,126 +385,182 @@
           //모달 띄우고
           // console.log(this.dataset.postid);
           comment_postid = this.dataset.postid;
+          console.log(comment_postid);
+          console.log(comment_postid);
+          console.log(comment_postid);
           $('#comment_modal').modal('show');
         });
-
-        $(".check").click(function () {
-          var str = "";
-          $(".check").each(function () {
-            if ($(this).is(":checked"))
-              str += $(this).val() + " ";
-          });
-          $("#Multi").text(str);  // #multiPrint에 체크된 원소를 출력한다.
-
-        });
-
-        
-        $("#status").click(() => {
-          firebase.auth().onAuthStateChanged(function (user) {
-            if (user) {
-              // User is signed in.
-              var displayName = user.displayName;
-              var email = user.email;
-              var emailVerified = user.emailVerified;
-              var photoURL = user.photoURL;
-              var isAnonymous = user.isAnonymous;
-              var uid = user.uid;
-              var providerData = user.providerData;
-              // ...
-              console.log(user);
-            } else {
-              // User is signed out.
-              // ...
-              console.log('nono')
-            }
-          });
-
-        });
-        
-        $("#logout").click(() => {
-          firebase.auth().signOut().then(function () {
-            console.log("Sign-out successful")
-          }).catch(function (error) {
-            console.log("An error happened.")
-          });
-        })
       });
     });
   </script>
-  <!-- 2 CSS files are required: -->
-    <!--   * Tag-it's base CSS (jquery.tagit.css). -->
-    <!--   * Any theme CSS (either a jQuery UI theme such as "flick", or one that's bundled with Tag-it, e.g. tagit.ui-zendesk.css as in this example.) -->
-    <!-- The base CSS and tagit.ui-zendesk.css theme are scoped to the Tag-it widget, so they shouldn't affect anything else in your site, unlike with jQuery UI themes. -->
-    <link href="./assets/css/jquery.tagit.css" rel="stylesheet" type="text/css">
-    <link href="./assets/css/tagit.ui-zendesk.css" rel="stylesheet" type="text/css">
-    <!-- If you want the jQuery UI "flick" theme, you can use this instead, but it's not scoped to just Tag-it like tagit.ui-zendesk is: -->
-    <!--   <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css"> -->
 
-    <!-- jQuery and jQuery UI are required dependencies. -->
-    <!-- Although we use jQuery 1.4 here, it's tested with the latest too (1.8.3 as of writing this.) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js" type="text/javascript"
-        charset="utf-8"></script>
-    <script src="./assets/js/tag-it.js" type="text/javascript" charset="utf-8"></script>
 
-    <!-- Modal -->
-    <!-- The Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                          aria-hidden="true">&times;</span></button>
-                  url: <input type="text" id="url" onfocusout="url_focusout()">
-                  <table>
-                      <tr data-href="www.naver.com" style="cursor:pointer;">
-                          <td><img src="#" id='image'></td>
-                      </tr>
-                      <tr data-href="www.naver.com" style="cursor:pointer;">
-                          <td id='description'>description</td>
-                      </tr>
-                  </table>
-                  <!--tag-->
-                  <ul id="removeConfirmationTags">
-                      <li>tag</li>
-                  </ul>
-                  <!--slider-->
-                  <div class="content">
-                      <label>level: </label><input type="text" value="6.0" class="slideControl" maxlength="3"
-                          name="level" id="level" />
-                  </div>
-                  <input type="button" value="submit" onclick="send_data()" data-dismiss="modal"
-                      aria-label="Close"></input>
-
-              </div>
-          </div>
-      </div>
-  </div>
   <!------------------------------------------------------------------------>
   <!-- Modal -->
   <!-- The Modal -->
   <div class="modal fade" id="comment_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                          aria-hidden="true">&times;</span></button>
-                  <!--slider-->
-                  <div class="content">
-                      <label>level: </label><input type="text" value="6.0" class="slideControl" maxlength="3"
-                          id="comment_level" />
-                  </div>
-
-                  <div class="comment">
-                      comment
-                      <textarea name="comment_box" id="comment" rows="5" cols="50"> </textarea>
-                  </div>
-                  <input type="button" value="submit" onclick="send_comment_data()" data-dismiss="modal"
-                      aria-label="Close"></input>
-              </div>
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <!--slider-->
+          <div class="content">
+            <label>level: </label><input type="text" value="6.0" class="slideControl" maxlength="3"
+              id="comment_level" />
           </div>
+
+          <div class="comment">
+            comment
+            <textarea name="comment_box" id="comment" rows="5" cols="50"> </textarea>
+          </div>
+          <input type="button" value="submit" onclick="send_comment_data()" data-dismiss="modal"
+            aria-label="Close"></input>
+        </div>
       </div>
+    </div>
   </div>
+  <!-- Button trigger modal -->
+  <!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    Launch demo modal
+  </button> -->
+  <script>
+    function url_focusout() {
+      const m_name = $('#url').val();
+      console.log(m_name)
+      $.ajax({
+        method: "GET",
+        url: "http://106.10.34.9:3000/analysis_url",
+        data: { url: m_name }
+      })
+        .done(function (data) {
+          console.log(data);
+          blog_data = data;
+          // $('#image').text(data['og:image'])
+          $("#image").attr("src", data['og:image']);
+          $('#description').text(data['og:description'])
+          //alert("Data Saved: " + data);
+        });
+    }
+    //tag
+
+
+    $(function () {
+      var sampleTags = ['c++', 'java', 'php', 'coldfusion', 'javascript', 'asp', 'ruby', 'python', 'c', 'scala', 'groovy', 'haskell', 'perl', 'erlang', 'apl', 'cobol', 'go', 'lua'];
+
+      //-------------------------------
+      // Tag events
+      //-------------------------------
+      var eventTags = $('#eventTags');
+
+      var addEvent = function (text) {
+        $('#events_container').append(text + '<br>');
+      };
+
+      eventTags.tagit({
+        availableTags: sampleTags,
+        beforeTagAdded: function (evt, ui) {
+          if (!ui.duringInitialization) {
+            addEvent('beforeTagAdded: ' + eventTags.tagit('tagLabel', ui.tag));
+          }
+        },
+        afterTagAdded: function (evt, ui) {
+          if (!ui.duringInitialization) {
+            addEvent('afterTagAdded: ' + eventTags.tagit('tagLabel', ui.tag));
+          }
+        },
+        beforeTagRemoved: function (evt, ui) {
+          addEvent('beforeTagRemoved: ' + eventTags.tagit('tagLabel', ui.tag));
+        },
+        afterTagRemoved: function (evt, ui) {
+          addEvent('afterTagRemoved: ' + eventTags.tagit('tagLabel', ui.tag));
+        },
+        onTagClicked: function (evt, ui) {
+          addEvent('onTagClicked: ' + eventTags.tagit('tagLabel', ui.tag));
+        },
+        onTagExists: function (evt, ui) {
+          addEvent('onTagExists: ' + eventTags.tagit('tagLabel', ui.existingTag));
+        }
+      });
+      //-------------------------------
+      // Remove confirmation
+      //-------------------------------
+      $('#removeConfirmationTags').tagit({
+        availableTags: sampleTags,
+        removeConfirmation: true
+      });
+
+    });
+    var blog_data;
+    function send_data() {
+      var level = document.getElementById('level').value;
+      var m_client_id = 'test_id';
+      var tags = {};
+
+      var i = 0;
+      while (1) {
+        try {
+          tags[document.getElementsByClassName("tagit-label")[i].innerHTML] = true;
+        } catch {
+          console.log(tags, 'eror!')
+          break;
+        }
+        i++;
+      }
+
+      $.ajax({
+        method: "POST",
+        url: "http://106.10.34.9:3000/write_post",
+        data: {
+          'client_id': m_client_id,
+          'og:title': blog_data['og:title'],
+          'og:description': blog_data['og:description'],
+          'og:image': blog_data['og:image'],
+          'og:url': blog_data['og:url'],
+          'level': level,
+          'tags': tags
+        }
+      }).done((data) => {
+        console.log(data);
+      });
+    }
+  </script>
+  <link href="./assets/css/jquery.tagit.css" rel="stylesheet" type="text/css">
+  <link href="./assets/css/tagit.ui-zendesk.css" rel="stylesheet" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js" type="text/javascript"
+    charset="utf-8"></script>
+  <script src="./assets/js/tag-it.js" type="text/javascript" charset="utf-8"></script>
+
+  <script type="text/javascript" src="./assets/js/jquery.slideControl.js"></script>
+  <script type="text/javascript">
+    jQuery(document).ready(function () {
+      //slider
+      $('.slideControl').slideControl();
+    });
+
+    function send_comment_data() {
+      var level = document.getElementById('comment_level').value;
+      var m_client_id = 'test_id';
+      var m_com = $('#comment').val();
+
+      console.log(m_com);
+      console.log(level);
+
+      $.ajax({
+        method: "POST",
+        url: "http://106.10.34.9:3000/feedback_post",
+        data: {
+          'client_id': m_client_id,
+          'post_id': '1E45XGW6k0qiWhWJwnfE',
+          'level': level,
+          'comment': m_com
+        }
+      }).done((data) => {
+        console.log(data);
+      });
+    }
+  </script>
 </body>
 
 </html>

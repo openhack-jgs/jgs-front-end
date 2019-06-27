@@ -1,3 +1,8 @@
+
+
+* {
+  /* font-family: "NanumSqureR" !important; */
+}
 div.dev-init-header {
   height: 70px;
   display:flex;
@@ -269,4 +274,22 @@ footer {
 
 .dev-init-category-web-sub {
   background-color : #e6eafb;
+}
+
+
+@font-face {
+  font-family: NanumSquareEB;
+  src: url(../fonts/NanumSquareExtraBold.ttf) format('truetype');
+}
+@font-face {
+  font-family: NanumSquareB;
+  src: url(../fonts/NanumSquareBold.ttf) format('truetype');
+}
+@font-face {
+  font-family: NanumSquareL;
+  src: url(../fonts/NanumSquareLight.ttf) format('truetype');
+}
+@font-face {
+  font-family: NanumSquareR;
+  src: url(../fonts/NanumSquareRegular.ttf) format('truetype');
 }
