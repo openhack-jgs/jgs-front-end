@@ -36,12 +36,19 @@
 </style>
 
 
-<form>
+<form action="" method="">
     <!-- The Modal -->
     <div id="myModal" class="modal">
 
         <!-- Modal content -->
         <div class="modal-content">
+
+            <div style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;"
+                onClick="close_pop();">
+                <span class="pop_bt" style="font-size: 13pt;">
+                    X
+                </span>
+            </div>
             url: <input type="text" id="url" onfocusout="url_focusout()">
             <table>
                 <tr data-href="www.naver.com" style="cursor:pointer;">
@@ -51,21 +58,13 @@
                     <td>description</td>
                 </tr>
             </table>
-            <div style="cursor:pointer;background-color:#DDDDDD;text-align: center;padding-bottom: 10px;padding-top: 10px;"
-                onClick="close_pop();">
-                <span class="pop_bt" style="font-size: 13pt;">
-                    X
-                </span>
-            </div>
             <!--tag-->
             <ul id="removeConfirmationTags">
                 <li>tag</li>
             </ul>
             <!--slider-->
             <div class="content">
-                <ul class="clearfix">
-                    <li><label>난이도: </label><input type="text" value="6.0" class="slideControl" maxlength="3" /></li>
-                </ul>
+                <label>난이도: </label><input type="text" value="6.0" class="slideControl" maxlength="3" />
             </div>
             <input type="submit" value="등록">
         </div>
@@ -84,8 +83,10 @@
 
 <!-- jQuery and jQuery UI are required dependencies. -->
 <!-- Although we use jQuery 1.4 here, it's tested with the latest too (1.8.3 as of writing this.) -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"
+    charset="utf-8"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js" type="text/javascript"
+    charset="utf-8"></script>
 <script src="js/tag-it.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 
@@ -96,15 +97,23 @@
         });
         //slider
         $('.slideControl').slideControl();
-        prettyPrint();
     });
     //팝업 Close 기능
     function close_pop(flag) {
         $('#myModal').hide();
     };
-    function url_focusout() {
+ /*   function url_focusout() {
+        const m_name = $('#url');       //이 돔에 있는 값을 가져오자
+        $.ajax({
+            method: "POST",
+            url: "back",
+            data: { name: m_name }
+        })
+            .done(function (data) {
+                alert("Data Saved: " + data);
+            });
         alert("aa");
-    }
+    }*/
     //tag
     $(function () {
         var sampleTags = ['c++', 'java', 'php', 'coldfusion', 'javascript', 'asp', 'ruby', 'python', 'c', 'scala', 'groovy', 'haskell', 'perl', 'erlang', 'apl', 'cobol', 'go', 'lua'];
@@ -156,5 +165,4 @@
 
 </script>
 <link rel="stylesheet" type="text/css" href="slideControl.css" />
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 <script type="text/javascript" src="jquery.slideControl.js"></script>
