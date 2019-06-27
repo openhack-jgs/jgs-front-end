@@ -1,4 +1,4 @@
-<header class="container">
+    <header class="container">
         <a href="#" class="logo"><img src="" alt=" "></a>
         <!-- <a href="#">log in</a> -->
         <div id="login">Log In</div>
@@ -14,8 +14,20 @@
     
         <section class ="Tag_section">
             
+        <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-app.js"></script>
+
+        <!-- Add Firebase products that you want to use -->
+        <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-firestore.js"></script>
+        <script src="./init-firebase.js"></script>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script type="text/javascript">
+        
+
+        var provider = new firebase.auth.GithubAuthProvider();
+
         $(document).ready(function(){
 
             const dummy = [
@@ -68,18 +80,37 @@
               $("#Multi").text(str);  // #multiPrint에 체크된 원소를 출력한다.
              
             });
-
             $("#login").click(() => {
-                $.ajax({
-                    method: "GET",
-                    url: "https://github.com/login/oauth/authorize",
-                    data: {
-                        'client_id': 'fc3c53254b6ef47a9646',
-                    }
-                }).done((data) => {
-                    console.log(data);
-                })
-            })
+                firebase.auth().signInWithPopup(provider).then(function(result) {
+                // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+                var token = result.credential.accessToken;
+                // The signed-in user info.
+                var user = result.user;
+                // ...
+                console.log(token);
+                console.log(user);
+                }).catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // The email of the user's account used.
+                var email = error.email;
+                // The firebase.auth.AuthCredential type that was used.
+                var credential = error.credential;
+                // ...
+                });
+            });
+            // $("#login").click(() => {
+            //     $.ajax({
+            //         method: "GET",
+            //         url: "https://github.com/login/oauth/authorize",
+            //         data: {
+            //             'client_id': 'fc3c53254b6ef47a9646',
+            //         }
+            //     }).done((data) => {
+            //         console.log(data);
+            //     })
+            // })
         });
         </script>
         <!--tag-->
