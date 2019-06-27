@@ -1,6 +1,10 @@
+
 <header class="container">
     <a href="#" class="logo"><img src="" alt=" "></a>
-    <a href="#">log in</a>
+    <!-- <a href="#">log in</a> -->
+    <div id="login">Log In</div>
+    <div id="status">status</div>
+    <div id="logout">Log Out</div>
 </header>
 <body>
     <!--search-->
@@ -13,9 +17,19 @@
             
 
     <section class ="Tag_section">
-        
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-app.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-firestore.js"></script>
+    <script src="./init-firebase.js"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
+
+    var provider2 = new firebase.auth.GoogleAuthProvider();
+
     var dummy = [];
     $(document).ready(function(){
         $.ajax({
@@ -43,41 +57,74 @@
                     </a>
                     <div>
                        난이도 :  ${o['level']/o['level_count']}
+
                     </div>
                 </div>
                 `;
             });
             $('#contents').html(contentsHTML);
+            
+            $(".check").click(function(){  
+                var str = ""; 
+                $(".check").each(function(){  
+                    if($(this).is(":checked"))  
+                        str += $(this).val() + " "; 
+                });
+              $("#Multi").text(str);  // #multiPrint에 체크된 원소를 출력한다.
+             
+            });
+            $("#login").click(() => {
+                firebase.auth().signInWithPopup(provider2).then(function(result) {
+                    console.log("333...")
+                    // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+                    var token = result.credential.accessToken;
+                    // The signed-in user info.
+                    var user = result.user;
+                    // ...
+                    console.log(token);
+                    console.log(user);
+                }).catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // The email of the user's account used.
+                var email = error.email;
+                // The firebase.auth.AuthCredential type that was used.
+                var credential = error.credential;
+                // ...
+                });
+            });
+            $("#status").click(() => {
+                firebase.auth().onAuthStateChanged(function(user) {
+                    if (user) {
+                        // User is signed in.
+                        var displayName = user.displayName;
+                        var email = user.email;
+                        var emailVerified = user.emailVerified;
+                        var photoURL = user.photoURL;
+                        var isAnonymous = user.isAnonymous;
+                        var uid = user.uid;
+                        var providerData = user.providerData;
+                        // ...
+                        console.log(user);
+                    } else {
+                        // User is signed out.
+                        // ...
+                        console.log('nono')
+                    }
+                });
+
+            });
+            $("#logout").click(() => {
+                firebase.auth().signOut().then(function() {
+                    console.log("Sign-out successful")
+                }).catch(function(error) {
+                    console.log("An error happened.")
+                });
+            })
         });
-      /*  dummy = [
-            {
-                url : 'https://www.naver.com',
-                title : 'a',
-                desc: 'aaaa',
-                img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-                tag: 'web',
-                like: '3'
-            },
-            {
-                url : 'https://www.naver.com',
-                title : 'b',
-                desc: 'bbbb',
-                img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-                tag: 'web',
-                like: '4'
-            },
-            {
-                url : 'https://www.naver.com',
-                title : 'c',
-                desc: 'cccc',
-                img: 'https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png',
-                tag: 'app',
-                like: '5'
-            }
-        ];
-*/
-        
     });
+
     //태그받아오기
     function get_tags() {
         $.ajax({
