@@ -7,7 +7,7 @@ $(function() {
           "display": "none"
         });
       });
-  
+      
       $(".declation").click(function() {
         $("#myModal").css({
           "display": "none"
@@ -27,7 +27,7 @@ $(function() {
           });
         }
       });
-      
+
     });
   })
   

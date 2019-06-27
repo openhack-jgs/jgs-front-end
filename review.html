@@ -5,23 +5,21 @@
 <script src="https://code.jquery.com/jquery-latest.js"></script>
 </head>
 
+
 <body>
-
 <!-- Trigger/Open The Modal -->
-
 <!-- The Modal -->
 <div id="myModal" class="modal">
 
   <!-- Modal content -->
   <div id="modal-content" class="modal-content">
-    <div>
-      <!--로그인-->
+    <div class ="modal-top">
+      <!--로그인--> log in
+       <ul class="close">×</ul>
+     <ul class="declation">△</ul>  <!--누르면 태그 눌리게 -->
     </div>
     <div>
-         <!--tag-->
-     <ul class="close">×</ul>
-      <ul class="declation">△</ul>  <!--누르면 태그 눌리게 -->
-        
+         <!--tag--> tag
     </div>
       <!--slider-->
       <div class="content">
@@ -30,7 +28,7 @@
     
   <div class = "comment">
     comment
-    <textarea name="comment_box" rows = "5" cols="50"> </textarea>
+    <textarea name="comment_box" id = "comment" rows = "5" cols="50"> </textarea>
   </div>
   <input type="submit" class ="submit" value="등록">
 </div>
@@ -44,8 +42,18 @@
             window.open($(this).data('href'));
         });
         //slider
-        $('.slideControl').slideControl();
+        $('.slideControl').slideControl();   
     });
+
+ function comment_put () {
+    const m_com = $('#comment').val();
+    console.log(m_com)
+    $.ajax({
+        method : "GET",
+        url : "http://106.10.34.9:3000/analysis_url",
+        data : { comment : m_com}
+    })
+ }
 </script>
 
 <script src="./jquery-3.0.0.min.js"></script>
