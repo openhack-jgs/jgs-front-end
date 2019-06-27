@@ -3,6 +3,7 @@
         <!-- <a href="#">log in</a> -->
         <div id="login">Log In</div>
         <div id="status">status</div>
+        <div id="logout">Log Out</div>
     </header>
     <body>
         <section class="Search_bar_section">  
@@ -124,17 +125,13 @@
                 });
 
             });
-            // $("#login").click(() => {
-            //     $.ajax({
-            //         method: "GET",
-            //         url: "https://github.com/login/oauth/authorize",
-            //         data: {
-            //             'client_id': 'fc3c53254b6ef47a9646',
-            //         }
-            //     }).done((data) => {
-            //         console.log(data);
-            //     })
-            // })
+            $("#logout").click(() => {
+                firebase.auth().signOut().then(function() {
+                    console.log("Sign-out successful")
+                }).catch(function(error) {
+                    console.log("An error happened.")
+                });
+            })
         });
         </script>
         <!--tag-->
