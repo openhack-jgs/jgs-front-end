@@ -268,24 +268,25 @@
               'tag': document.getElementsByClassName('dev-init-category-tag-selected').item(document.getElementsByClassName('dev-init-category-tag-selected').length - 1).textContent,
             }
           }).then((data) => {
+            console.log(data)
             var contentsHTML = '';
             $('#dev-init-posts-container').html("");
             for (var i = 0; i < data.length; i++) {
               tag_str = '\0';
-              for (var key in data[0]['tags']) { tag_str += key + ' '; }
-              var avg_level = Math.round(Number(data[0]['level']) / Number(data[0]['level_count']));
+              for (var key in data[i]['tags']) { tag_str += key + ' '; }
+              var avg_level = Math.round(Number(data[i]['level']) / Number(data[i]['level_count']));
               contentsHTML +=
               `
               <div class="dev-init-post">
                 <div class="dev-init-img-box">
-                  <img class="dev-init-img" src="${data[0]['og:image']}">
+                  <img class="dev-init-img" src="${data[i]['og:image']}">
                 </div>
                 <div class="dev-init-post__right">
 
-                  <div class="dev-init-post__right-left" data-postid="${data[0]['post_id']}" data-url="${data[0]['og:url']}" data-tags="${data[0]['tags']}">
+                  <div class="dev-init-post__right-left" data-postid="${data[i]['post_id']}" data-url="${data[i]['og:url']}" data-tags="${data[i]['tags']}">
                     <div>
-                      <h3 class="dev-init-title">${data[0]['og:title']}</h3>
-                      <p class="dev-init-description">${data[0]['og:description']}</p>
+                      <h3 class="dev-init-title">${data[i]['og:title']}</h3>
+                      <p class="dev-init-description">${data[i]['og:description']}</p>
                     </div>
                     <ul class="dev-init-tags">
                       <li>${tag_str}</li>
@@ -298,7 +299,7 @@
                       <span class="dev-init-level-data">${avg_level}</span>
                     </div>
                     <div class="dev-init-heart">
-                      <img onclick="like(${data[0]['post_id']})" id="${data[0]['post_id']}" class="dev-init-heart-icon" src="./assets/img/dev_init_heartblack.png">
+                      <img onclick="like(${data[i]['post_id']})" id="${data[i]['post_id']}" class="dev-init-heart-icon" src="./assets/img/dev_init_heartblack.png">
                     </div>
                   </div>
                 </div>
@@ -769,6 +770,9 @@
           keyword: $('#keyword').val()
         }
       }).then(data => {
+        console.log('1');
+        console.log(data);
+        console.log('1');
         data.forEach(data => {
           console.log(data);var contentsHTML = '';
             $('#dev-init-posts-container').html("");
