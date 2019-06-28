@@ -305,7 +305,10 @@
             $('#dev-init-posts-container').html("");
             for (var i = 0; i < data.length; i++) {
               tag_str = '\0';
-              for (var key in data[i]['tags']) { tag_str += key + ' '; }
+              for (var key in data[i]['tags']) {
+                tag_str += '#' + key + '  '; 
+                console.log('1');
+              }
               var avg_level = Math.round(Number(data[i]['level']) / Number(data[i]['level_count']));
               contentsHTML +=
                 `
