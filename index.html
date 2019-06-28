@@ -72,7 +72,7 @@
         <form class="dev-init-search-box">
           <input type="text" class="form-control" id="keyword" placeholder="검색할 태그를 입력해주세요">
         </form>
-        <img class="dev-init-search-black" src="assets/img/dev_init_search_black.png">
+        <img class="dev-init-search-black" onclick="search()" src="assets/img/dev_init_search_black.png">
       </div>
       <div id="add_filter">
         필터 추가
@@ -81,7 +81,36 @@
     </div>
 
     <div id="dev-init-filter-container">
-
+        <div id="dev-init-filter-box">
+            <div class="dev-init-category">
+              <div class="dev-init-category-tag">
+                <b>Web</b>
+              </div>
+              <div class="dev-init-category-web-sub-box">
+                <!--  -->
+              </div>
+              <div class="dev-init-category-tag">
+                <b>App</b>
+              </div>
+              <div class="dev-init-category-app-sub-box">
+                <!--  -->
+              </div>
+            </div>
+            <div class="dev-init-category-item">
+              <div class="dev-init-category-web">
+                <!--  -->
+              </div>
+              <div class="dev-init-category-web-sub">
+                <!--  -->
+              </div> 
+              <div class="dev-init-category-app">
+                <!--  -->
+              </div>
+              <div class="dev-init-category-app-sub">
+                <!--  -->
+              </div>
+            </div>
+          </div>
     </div>
 
     <div id="dev-init-posts-container">
@@ -168,7 +197,9 @@
     var provider2 = new firebase.auth.GoogleAuthProvider();
     var tag_infos;
     $('#add_filter').click(() => {
-      $('#dev-init-filter-container').html(`<div id="dev-init-filter-box">
+      $('#dev-init-filter-container').html(
+        `
+        <div id="dev-init-filter-box">
         <div class="dev-init-category">
           <div class="dev-init-category-tag">
             <b>Web</b>
@@ -197,7 +228,8 @@
             <!--  -->
           </div>
         </div>
-      </div>`);
+      </div>
+      `);
 
       let contentsHTML_web = '';
       let contentsHTML_app = '';
@@ -221,12 +253,61 @@
     });
 
     var tag_list = {}
+    var search_list = [];
 
     var toggle_css = function (key, type, flag) {
       document.getElementById(`${key}`).classList.toggle("dev-init-category-tag-selected");
 
       if (flag == 1) {
-        if (document.getElementsByClassName('dev-init-category-tag-selected').item(0).innerHTML) {
+        if (document.getElementsByClassName('dev-init-category-tag-selected').item(tag_list.length).innerHTML) {
+          $.ajax({
+            method: "GET",
+            url: "http://localhost:3000/search_filter",
+            data: {
+              'stack': document.getElementsByClassName('dev-init-category-tag-selected').item(0).textContent,
+              'tag': document.getElementsByClassName('dev-init-category-tag-selected').item(document.getElementsByClassName('dev-init-category-tag-selected').length - 1).textContent,
+            }
+          }).then((data) => {
+            var contentsHTML = '';
+            $('#dev-init-posts-container').html("");
+            for (var i = 0; i < data.length; i++) {
+              tag_str = '\0';
+              for (var key in data[0]['tags']) { tag_str += key + ' '; }
+              var avg_level = Math.round(Number(data[0]['level']) / Number(data[0]['level_count']));
+              contentsHTML +=
+              `
+              <div class="dev-init-post">
+                <div class="dev-init-img-box">
+                  <img class="dev-init-img" src="${data[0]['og:image']}">
+                </div>
+                <div class="dev-init-post__right">
+
+                  <div class="dev-init-post__right-left" data-postid="${data[0]['post_id']}" data-url="${data[0]['og:url']}" data-tags="${data[0]['tags']}">
+                    <div>
+                      <h3 class="dev-init-title">${data[0]['og:title']}</h3>
+                      <p class="dev-init-description">${data[0]['og:description']}</p>
+                    </div>
+                    <ul class="dev-init-tags">
+                      <li>${tag_str}</li>
+                    </ul>
+                  </div>
+
+                  <div class="dev-init-post__right-right">
+                    <div class="dev-init-level">
+                      <span class="dev-init-level-label">Lv</span>
+                      <span class="dev-init-level-data">${avg_level}</span>
+                    </div>
+                    <div class="dev-init-heart">
+                      <img onclick="like(${data[0]['post_id']})" id="${data[0]['post_id']}" class="dev-init-heart-icon" src="./assets/img/dev_init_heartblack.png">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              `;
+            }
+            $('#dev-init-posts-container').html(contentsHTML);
+          })
+          search_list.push(document.getElementsByClassName('dev-init-category-tag-selected').item(0).innerHTML)
           if (type == 'web') {
             var temp = tag_list[document.getElementsByClassName('dev-init-category-tag-selected').item(0).innerHTML];
             var tempHTML_web = '';
@@ -677,6 +758,59 @@
           login();
         }
       })
+    }
+
+    var search = () => {
+      console.log($('#keyword').val())
+      $.ajax({
+        method: "GET",
+        url: "http://106.10.34.9:3000/search",
+        url: "http://localhost:3000/search",
+        data: {
+          keyword: $('#keyword').val()
+        }
+      }).then(data => {
+        data.forEach(data => {
+          console.log(data);var contentsHTML = '';
+            $('#dev-init-posts-container').html("");
+            for (var i = 0; i < data.length; i++) {
+              tag_str = '\0';
+              for (var key in data[0]['tags']) { tag_str += key + ' '; }
+              var avg_level = Math.round(Number(data[0]['level']) / Number(data[0]['level_count']));
+              contentsHTML +=
+              `
+              <div class="dev-init-post">
+                <div class="dev-init-img-box">
+                  <img class="dev-init-img" src="${data[0]['og:image']}">
+                </div>
+                <div class="dev-init-post__right">
+
+                  <div class="dev-init-post__right-left" data-postid="${data[0]['post_id']}" data-url="${data[0]['og:url']}" data-tags="${data[0]['tags']}">
+                    <div>
+                      <h3 class="dev-init-title">${data[0]['og:title']}</h3>
+                      <p class="dev-init-description">${data[0]['og:description']}</p>
+                    </div>
+                    <ul class="dev-init-tags">
+                      <li>${tag_str}</li>
+                    </ul>
+                  </div>
+
+                  <div class="dev-init-post__right-right">
+                    <div class="dev-init-level">
+                      <span class="dev-init-level-label">Lv</span>
+                      <span class="dev-init-level-data">${avg_level}</span>
+                    </div>
+                    <div class="dev-init-heart">
+                      <img onclick="like(${data[0]['post_id']})" id="${data[0]['post_id']}" class="dev-init-heart-icon" src="./assets/img/dev_init_heartblack.png">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              `;
+            }
+            $('#dev-init-posts-container').html(contentsHTML);
+        })
+      });
     }
   </script>
 </body>
