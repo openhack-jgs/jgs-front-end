@@ -262,7 +262,7 @@
         if (document.getElementsByClassName('dev-init-category-tag-selected').item(tag_list.length).innerHTML) {
           $.ajax({
             method: "GET",
-            url: "http://localhost:3000/search_filter",
+            url: "http://106.10.34.9:3000/search_filter",
             data: {
               'stack': document.getElementsByClassName('dev-init-category-tag-selected').item(0).textContent,
               'tag': document.getElementsByClassName('dev-init-category-tag-selected').item(document.getElementsByClassName('dev-init-category-tag-selected').length - 1).textContent,
@@ -765,7 +765,6 @@
       $.ajax({
         method: "GET",
         url: "http://106.10.34.9:3000/search",
-        url: "http://localhost:3000/search",
         data: {
           keyword: $('#keyword').val()
         }
