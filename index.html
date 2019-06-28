@@ -294,7 +294,7 @@
         if (user) {
           $.ajax({
             method: "POST",
-            url: "http://localhost:3000/like",
+            url: "http://106.10.34.9:3000/like",
             data: {
               'client_id': user.uid,
               'post_id': post_id.id
@@ -303,6 +303,9 @@
             $(`#${post_id.id}`).attr("src", './assets/img/dev_init_heart.png');
             $(`#${post_id.id}`).attr(`onclick", 'dislike(${post_id.id})`);
           })
+        }
+        else {
+          login();
         }
       });
     }
@@ -320,6 +323,8 @@
             $(`#${post_id.id}`).attr("src", './assets/img/dev_init_heartblack.png');
             $(`#${post_id.id}`).attr(`onclick", 'like(${post_id.id})`);
           })
+        }else {
+          login();
         }
       });
     }
@@ -627,6 +632,8 @@
           }).done((data) => {
             console.log(data);
           });
+        }else {
+          login();
         }
       });
 
@@ -666,6 +673,8 @@
               'comment': m_com
             }
           });
+        } else {
+          login();
         }
       })
     }
