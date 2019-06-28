@@ -9,7 +9,8 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="http://github.com/openhack-jgs/" />
   <!-- TODO -->
-  <meta property="og:image" content="https://github.com/openhack-jgs/jgs-front-end/blob/master/assets/img/preview.png?raw=true" />
+  <meta property="og:image"
+    content="https://github.com/openhack-jgs/jgs-front-end/blob/master/assets/img/preview.png?raw=true" />
 
   <link rel=" shortcut icon" href="./assets/img/favicon.ico">
   <link rel="icon" href="./assets/img/favicon.ico">
@@ -74,43 +75,47 @@
         </form>
         <img class="dev-init-search-black" onclick="search()" src="assets/img/dev_init_search_black.png">
       </div>
-      <div id="add_filter">
+      <div id="add_filter2" data-toggle="collapse" href="#collapseExample" aria-expanded="false"
+        aria-controls="collapseExample">
         필터 추가
         <img class="dev_init_tri" src="./assets/img/dev_init_tri.png">
       </div>
     </div>
 
     <div id="dev-init-filter-container">
+      <div class="collapse" id="collapseExample">
         <div id="dev-init-filter-box">
-            <div class="dev-init-category">
-              <div class="dev-init-category-tag">
-                <b>Web</b>
-              </div>
-              <div class="dev-init-category-web-sub-box">
-                <!--  -->
-              </div>
-              <div class="dev-init-category-tag">
-                <b>App</b>
-              </div>
-              <div class="dev-init-category-app-sub-box">
-                <!--  -->
-              </div>
+          <div class="dev-init-category">
+            <div class="dev-init-category-tag">
+              <b>Web</b>
             </div>
-            <div class="dev-init-category-item">
-              <div class="dev-init-category-web">
-                <!--  -->
-              </div>
-              <div class="dev-init-category-web-sub">
-                <!--  -->
-              </div> 
-              <div class="dev-init-category-app">
-                <!--  -->
-              </div>
-              <div class="dev-init-category-app-sub">
-                <!--  -->
-              </div>
+            <div class="dev-init-category-web-sub-box">
+              <!--  -->
+            </div>
+            <div class="dev-init-category-tag">
+              <b>App</b>
+            </div>
+            <div class="dev-init-category-app-sub-box">
+              <!--  -->
             </div>
           </div>
+          <div class="dev-init-category-item">
+            <div class="dev-init-category-web">
+              <!--  -->
+            </div>
+            <div class="dev-init-category-web-sub">
+              <!--  -->
+            </div>
+            <div class="dev-init-category-app">
+              <!--  -->
+            </div>
+            <div class="dev-init-category-app-sub">
+              <!--  -->
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <div id="dev-init-posts-container">
@@ -276,7 +281,7 @@
               for (var key in data[i]['tags']) { tag_str += key + ' '; }
               var avg_level = Math.round(Number(data[i]['level']) / Number(data[i]['level_count']));
               contentsHTML +=
-              `
+                `
               <div class="dev-init-post">
                 <div class="dev-init-img-box">
                   <img class="dev-init-img" src="${data[i]['og:image']}">
@@ -405,7 +410,7 @@
             $(`#${post_id.id}`).attr("src", './assets/img/dev_init_heartblack.png');
             $(`#${post_id.id}`).attr(`onclick", 'like(${post_id.id})`);
           })
-        }else {
+        } else {
           login();
         }
       });
@@ -714,7 +719,7 @@
           }).done((data) => {
             console.log(data);
           });
-        }else {
+        } else {
           login();
         }
       });
@@ -774,13 +779,13 @@
         console.log(data);
         console.log('1');
         data.forEach(data => {
-          console.log(data);var contentsHTML = '';
-            $('#dev-init-posts-container').html("");
-            for (var i = 0; i < data.length; i++) {
-              tag_str = '\0';
-              for (var key in data[0]['tags']) { tag_str += key + ' '; }
-              var avg_level = Math.round(Number(data[0]['level']) / Number(data[0]['level_count']));
-              contentsHTML +=
+          console.log(data); var contentsHTML = '';
+          $('#dev-init-posts-container').html("");
+          for (var i = 0; i < data.length; i++) {
+            tag_str = '\0';
+            for (var key in data[0]['tags']) { tag_str += key + ' '; }
+            var avg_level = Math.round(Number(data[0]['level']) / Number(data[0]['level_count']));
+            contentsHTML +=
               `
               <div class="dev-init-post">
                 <div class="dev-init-img-box">
@@ -810,8 +815,8 @@
                 </div>
               </div>
               `;
-            }
-            $('#dev-init-posts-container').html(contentsHTML);
+          }
+          $('#dev-init-posts-container').html(contentsHTML);
         })
       });
     }
