@@ -53,6 +53,8 @@
     </div>
   </div>
 
+  
+
   <div class="dev-init-bg-container">
     <div class="dev-init-bg-title-container">
       <h1 class="dev-init-bg-title">
@@ -265,6 +267,31 @@
 
       if (flag == 1) {
         if (document.getElementsByClassName('dev-init-category-tag-selected').item(tag_list.length).innerHTML) {
+          search_list.push(document.getElementsByClassName('dev-init-category-tag-selected').item(0).innerHTML)
+          if (type == 'web') {
+            var temp = tag_list[document.getElementsByClassName('dev-init-category-tag-selected').item(0).innerHTML];
+            var tempHTML_web = '';
+            for (var key in temp) {
+              const random_key = Math.random();
+              tempHTML_web +=
+                `
+              <div id="${random_key}" type="web" class="dev-init-category-tag" onclick="toggle_css(${random_key}, 'web', 0)">${key}</div>
+              `;
+            }
+            $('.dev-init-category-web-sub').html(tempHTML_web);
+          } else {
+            var temp = tag_list[document.getElementsByClassName('dev-init-category-tag-selected').item(0).innerHTML];
+            var tempHTML_app = '';
+            for (var key in temp) {
+              const random_key = Math.random();
+              tempHTML_app +=
+                `
+              <div id="${random_key}" type="web" class="dev-init-category-tag" onclick="toggle_css(${random_key}, 'app', 0)">${key}</div>
+              `;
+            }
+            $('.dev-init-category-app-sub').html(tempHTML_app);
+          }
+
           $.ajax({
             method: "GET",
             url: "http://106.10.34.9:3000/search_filter",
@@ -313,30 +340,6 @@
             }
             $('#dev-init-posts-container').html(contentsHTML);
           })
-          search_list.push(document.getElementsByClassName('dev-init-category-tag-selected').item(0).innerHTML)
-          if (type == 'web') {
-            var temp = tag_list[document.getElementsByClassName('dev-init-category-tag-selected').item(0).innerHTML];
-            var tempHTML_web = '';
-            for (var key in temp) {
-              const random_key = Math.random();
-              tempHTML_web +=
-                `
-              <div id="${random_key}" type="web" class="dev-init-category-tag" onclick="toggle_css(${random_key}, 'web', 0)">${key}</div>
-              `;
-            }
-            $('.dev-init-category-web-sub').html(tempHTML_web);
-          } else {
-            var temp = tag_list[document.getElementsByClassName('dev-init-category-tag-selected').item(0).innerHTML];
-            var tempHTML_app = '';
-            for (var key in temp) {
-              const random_key = Math.random();
-              tempHTML_app +=
-                `
-              <div id="${random_key}" type="web" class="dev-init-category-tag" onclick="toggle_css(${random_key}, 'app', 0)">${key}</div>
-              `;
-            }
-            $('.dev-init-category-app-sub').html(tempHTML_app);
-          }
         }
       }
     }
