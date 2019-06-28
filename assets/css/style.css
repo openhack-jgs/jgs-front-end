@@ -301,3 +301,10 @@ footer {
   top:0;
   width: 100%;
 }
+
+.modal-dialog {
+  /* height: 312px; */
+}
+.modal-content, .modal-header {
+  height: 100% !important;
+}
