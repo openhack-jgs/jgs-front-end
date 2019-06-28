@@ -17,7 +17,7 @@
   <link href="assets/css/style.css" rel="stylesheet">
   <link href="assets/css/mypage.css" rel="stylesheet">
 
-  <link href="bootstrap-social.css" rel="stylesheet">
+  <!-- <link href="assets/css/bootstrap-social.css" rel="stylesheet"> -->
 
   <!-- google analytics -->
   <!-- <script type="text/javascript">
@@ -32,8 +32,8 @@
       })();
     </script> -->
   <script src="https://code.jquery.com/jquery-latest.js"></script>
-  <link rel="stylesheet" type="text/css" href="slideControl.css" />
-  <script type="text/javascript" src="jquery.slideControl.js"></script>
+  <link rel="stylesheet" type="text/css" href="assets/css/slideControl.css" />
+  <script type="text/javascript" src="assets/js/jquery.slideControl.js"></script>
 </head>
 
 <body>
@@ -79,7 +79,7 @@
   <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-firestore.js"></script>
   <script src="./init-firebase.js"></script>
 
-  <script src="./assets/css/bootstrap.js"></script>
+  <script src="./assets/js/bootstrap.js"></script>
   <link rel="stylesheet" href="./assets/css/bootstrap.css">
 
   <script src="./assets/js/jquery.js"></script>
@@ -104,15 +104,7 @@
           // ...
           console.log(user);
           console.log(user.uid);
-        } else {
-          // User is signed out.
-          // ...
-          alert("로그인이 필요한 서비스입니다.");
-          window.location.href = './index.html';
-        }
-      });
-
-      $.ajax({
+          $.ajax({
         method: "POST",
         url: "http://106.10.34.9:3000/liked_post",
         data: {
@@ -158,61 +150,17 @@
           </div>
           `;
         });
-
         $('#dev-init-posts-container').html(contentsHTML);
-
-        $("#dev-init-login").click(() => {
-          console.log('ci')
-          firebase.auth().signInWithPopup(provider2).then(function (result) {
-            console.log("333...")
-            // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-            var token = result.credential.accessToken;
-            // The signed-in user info.
-            var user = result.user;
-            // ...
-            console.log(token);
-            console.log(user);
-          }).catch(function (error) {
-            console.log(error);
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // The email of the user's account used.
-            var email = error.email;
-            // The firebase.auth.AuthCredential type that was used.
-            var credential = error.credential;
-            // ...
-          });
-        });
-        $("#status").click(() => {
-          firebase.auth().onAuthStateChanged(function (user) {
-            if (user) {
-              // User is signed in.
-              var displayName = user.displayName;
-              var email = user.email;
-              var emailVerified = user.emailVerified;
-              var photoURL = user.photoURL;
-              var isAnonymous = user.isAnonymous;
-              var uid = user.uid;
-              var providerData = user.providerData;
-              // ...
-              console.log(user);
-            } else {
-              // User is signed out.
-              // ...
-              console.log('nono')
-            }
-          });
-
-        });
-        $("#logout").click(() => {
-          firebase.auth().signOut().then(function () {
-            console.log("Sign-out successful")
-          }).catch(function (error) {
-            console.log("An error happened.")
-          });
-        })
       });
+        } else {
+          // User is signed out.
+          // ...
+          alert("로그인이 필요한 서비스입니다.");
+          window.location.href = './index.html';
+        }
+      });
+
+      
     });
   </script>
 </body>
