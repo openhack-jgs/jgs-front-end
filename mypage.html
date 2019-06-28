@@ -52,6 +52,9 @@
 
   <div class="container">
     <div class="dev-init-search-container">
+      <img id='profile-image' src="" alt="" class="img-circle">
+      <h2 id='profile-name'></h2>
+      <h3 id='profile-des'></h3>
     </div>
 
     <div id="dev-init-filter-container">
@@ -104,9 +107,13 @@
           // ...
           console.log(user);
           console.log(user.uid);
+          $("#profile-image").attr('src', user.photoURL);
+          $("#profile-name").html(user.displayName);
+          $("#profile-des").html('$ sudo dev init');
           $.ajax({
-        method: "POST",
-        url: "http://106.10.34.9:3000/liked_post",
+        method: "GET",
+        // url: "http://106.10.34.9:3000/liked_post",
+        url: "http://106.10.34.9:3000/main_page",
         data: {
           'client_id': user.uid
         }
@@ -142,7 +149,7 @@
                   <span class="dev-init-level-data">${avg_level}</span>
                 </div>
                 <div class="dev-init-heart">
-                  <img class="dev-init-heart-icon" src="assets/img/dev_init_heart.png">
+                  <img class="dev-init-heart-icon" src="assets/img/dev_init_heartblac=.png">
                   <div class="dev-init-heart-data">${o['like_count']}</div>
                 </div>
               </div>
