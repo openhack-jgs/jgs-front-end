@@ -148,7 +148,7 @@ footer {
 }
 
 .dev-init-post__right-left {
-  flex: 8;
+  flex: 14;
   display: flex;
   margin-left: 13px;
   flex-direction: column;

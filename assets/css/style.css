@@ -308,6 +308,6 @@ footer {
 .modal-content, .modal-header {
   height: 100% !important;
 }
-.profile-image {
+#profile-image {
   width: 30%;
 }
