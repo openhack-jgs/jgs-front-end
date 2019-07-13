@@ -1,13 +1,35 @@
 {
-  "name": "bootstrap-social",
-  "version": "5.1.1",
+  "name": "devinit",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lipis/bootstrap-social.git"
+    "url": "https://github.com/openhack-jgs/jgs-front-end"
   },
   "license": "MIT",
   "dependencies": {
-    "bootstrap": "~3",
-    "font-awesome": "~4.7"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-scripts": "3.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
